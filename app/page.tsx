@@ -1,12 +1,12 @@
-import HeroSection from "@/components/sections/HeroSection";
-import StatsSection from "@/components/sections/StatsSection";
-import AboutSection from "@/components/sections/AboutSection";
-import ClassesSection from "@/components/sections/ClassesSection";
-import ScheduleSection from "@/components/sections/ScheduleSection";
-import PlansSection from "@/components/sections/PlansSection";
-import TestimonialsSection from "@/components/sections/TestimonialsSection";
-import CTASection from "@/components/sections/CTASection";
-import ContactSection from "@/components/sections/ContactSection";
+import HeroSection       from "@/components/sections/HeroSection";
+import StatsSection      from "@/components/sections/StatsSection";
+import AboutSection      from "@/components/sections/AboutSection";
+import ScheduleSection   from "@/components/sections/ScheduleSection";
+import SedesSection      from "@/components/sections/SedesSection";
+import CourseSection     from "@/components/sections/CourseSection";
+import ReviewsSection    from "@/components/sections/ReviewsSection";
+import InstagramSection  from "@/components/sections/InstagramSection";
+import FinalCTASection   from "@/components/sections/FinalCTASection";
 import ScrollRevealProvider from "@/components/ScrollRevealProvider";
 
 export default function Home() {
@@ -15,12 +15,12 @@ export default function Home() {
       <HeroSection />
       <StatsSection />
       <AboutSection />
-      <ClassesSection />
       <ScheduleSection />
-      <PlansSection />
-      <TestimonialsSection />
-      <CTASection />
-      <ContactSection />
+      <SedesSection />
+      <CourseSection />
+      <ReviewsSection />
+      <InstagramSection />
+      <FinalCTASection />
     </ScrollRevealProvider>
   );
 }
