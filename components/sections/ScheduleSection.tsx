@@ -1,158 +1,177 @@
 "use client";
 
-import { useState } from "react";
+/* ── Real schedule from Warriors Sport Arg ──────────────────────────────────
+   Musculación: Lun–Sáb  (Mon–Fri 07–23h, Sat 08–18h)
+                Dom opcional (09–12h, sin profe)
+   Funcional:   Lun / Mié / Vie  19:00–20:00 · $50.000/mes
+   Yoga:        Mar / Jue         19:00–20:00 · $50.000/mes
+   ─────────────────────────────────────────────────────────────────────────── */
 
-/* ── Real data from Instagram posts ── */
-const classes = [
+type Slot = { name: string; time: string; color: string };
+
+type CalDay = {
+  short: string;
+  long: string;
+  muscHours: string;
+  slots: Slot[];
+  optional?: boolean;
+};
+
+const calendarDays: CalDay[] = [
+  { short: "LUN", long: "Lunes",      muscHours: "07–23h", slots: [{ name: "Funcional", time: "19–20h", color: "#7EEF08" }] },
+  { short: "MAR", long: "Martes",     muscHours: "07–23h", slots: [{ name: "Yoga",      time: "19–20h", color: "#a3e635" }] },
+  { short: "MIÉ", long: "Miércoles",  muscHours: "07–23h", slots: [{ name: "Funcional", time: "19–20h", color: "#7EEF08" }] },
+  { short: "JUE", long: "Jueves",     muscHours: "07–23h", slots: [{ name: "Yoga",      time: "19–20h", color: "#a3e635" }] },
+  { short: "VIE", long: "Viernes",    muscHours: "07–23h", slots: [{ name: "Funcional", time: "19–20h", color: "#7EEF08" }] },
+  { short: "SÁB", long: "Sábado",     muscHours: "08–18h", slots: [] },
+  { short: "DOM", long: "Domingo",    muscHours: "09–12h", slots: [], optional: true },
+];
+
+const classSummary = [
   {
     name: "Funcional",
-    emoji: "⚡",
-    days: "Lunes, Miércoles y Viernes",
+    days: "Lun / Mié / Vie",
     time: "19:00 – 20:00 hs.",
     price: "$ 50.000 / mes",
     color: "#7EEF08",
-    description: "Entrenamiento funcional de alta intensidad. Fuerza, movilidad y cardio en una sola clase.",
+    desc: "Entrenamiento de alta intensidad. Fuerza, movilidad y cardio.",
   },
   {
     name: "Yoga",
-    emoji: "🧘",
-    days: "Martes y Jueves",
+    days: "Mar / Jue",
     time: "19:00 – 20:00 hs.",
     price: "$ 50.000 / mes",
     color: "#a3e635",
-    description: "Conectá cuerpo y mente. Mejoría postural, flexibilidad y bienestar general.",
+    desc: "Conectá cuerpo y mente. Flexibilidad, postura y bienestar.",
   },
   {
     name: "Musculación",
-    emoji: "🏋️",
-    days: "Lunes a Viernes",
-    time: "07:00 – 23:00 hs.",
+    days: "Lun – Sáb",
+    time: "Según día",
     price: "Consultá planes",
-    color: "#EEEEEE",
-    description: "Sala libre con equipamiento premium. Entrenás a tu ritmo con guía profesional.",
+    color: "#ffffffcc",
+    desc: "Sala libre con equipamiento premium. Instructores certificados.",
   },
 ];
 
-const horarios = [
-  { day: "Lunes a Viernes", time: "07:00 – 23:00 hs.", note: "" },
-  { day: "Sábados",         time: "08:00 – 18:00 hs.", note: "" },
-  { day: "Domingos",        time: "09:00 – 12:00 hs.", note: "Sin profe · $5.000 socios / $10.000 no socios" },
-];
-
 export default function ScheduleSection() {
-  const [active, setActive] = useState(0);
-
   return (
     <section id="horarios" className="py-24 bg-[#0d0d0d]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header */}
-        <div className="text-center mb-14 reveal">
+        <div className="text-center mb-12 reveal">
           <p className="text-[#7EEF08] text-xs font-bold uppercase tracking-[0.3em] mb-3">Planificá tu semana</p>
           <h2 className="font-display text-5xl lg:text-7xl text-white tracking-wider leading-none">
             HORARIOS &amp; <span className="text-[#7EEF08] green-glow">CLASES</span>
           </h2>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-10 items-start">
+        {/* ── Weekly calendar grid ── */}
+        <div className="reveal mb-10">
+          <div className="overflow-x-auto rounded-2xl border border-[#1e1e1e]">
+            <div className="min-w-[560px]">
 
-          {/* ── Classes cards ── */}
-          <div className="reveal-left space-y-4">
-            <p className="text-white/40 text-xs uppercase tracking-widest mb-5">Disciplinas disponibles</p>
-            {classes.map((cls, i) => (
-              <button
-                key={cls.name}
-                onClick={() => setActive(i)}
-                className={`w-full text-left rounded-2xl border p-5 transition-all duration-300 ${
-                  active === i
-                    ? "border-[#7EEF08]/60 bg-[#7EEF08]/5"
-                    : "border-[#1e1e1e] bg-[#111] hover:border-[#2a2a2a]"
-                }`}
-              >
-                <div className="flex items-start gap-4">
-                  <span className="text-2xl mt-0.5">{cls.emoji}</span>
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between mb-1">
-                      <h3 className="font-display text-2xl tracking-wide text-white">{cls.name.toUpperCase()}</h3>
-                      <span className="font-semibold text-sm" style={{ color: cls.color }}>{cls.price}</span>
-                    </div>
-                    <p className="text-white/45 text-xs mb-2">{cls.description}</p>
-                    <div
-                      className="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full border"
-                      style={{ borderColor: cls.color + "40", color: cls.color }}
-                    >
-                      📅 {cls.days}
-                    </div>
-                  </div>
-                </div>
-              </button>
-            ))}
-          </div>
-
-          {/* ── Schedule detail + horarios generales ── */}
-          <div className="reveal-right space-y-6">
-
-            {/* Selected class detail */}
-            <div
-              key={active}
-              className="rounded-2xl border border-[#7EEF08]/30 bg-[#7EEF08]/5 p-7 animate-fade-in-up"
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-3xl">{classes[active].emoji}</span>
-                <div>
-                  <h3 className="font-display text-3xl text-white tracking-wide">{classes[active].name.toUpperCase()}</h3>
-                  <p className="text-[#7EEF08] text-sm font-semibold">{classes[active].price}</p>
-                </div>
-              </div>
-
-              <div className="space-y-3 mb-6">
-                <div className="flex items-center gap-3 bg-black/30 rounded-lg p-3">
-                  <span className="text-[#7EEF08]">📅</span>
-                  <div>
-                    <p className="text-white/40 text-xs uppercase tracking-widest">Días</p>
-                    <p className="text-white text-sm font-medium">{classes[active].days}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3 bg-black/30 rounded-lg p-3">
-                  <span className="text-[#7EEF08]">🕐</span>
-                  <div>
-                    <p className="text-white/40 text-xs uppercase tracking-widest">Horario</p>
-                    <p className="text-white text-sm font-medium">{classes[active].time}</p>
-                  </div>
-                </div>
-              </div>
-
-              <a
-                href="https://wa.me/5491168272020?text=Hola%2C%20quiero%20reservar%20una%20clase%20de%20prueba%20%F0%9F%92%AA"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block w-full text-center bg-[#7EEF08] hover:bg-[#5abc06] text-black font-bold py-3 rounded text-xs uppercase tracking-widest transition-all duration-200 hover:scale-[1.02]"
-              >
-                Reservar clase de prueba
-              </a>
-            </div>
-
-            {/* Horarios generales */}
-            <div>
-              <p className="text-white/40 text-xs uppercase tracking-widest mb-3">Horarios de apertura</p>
-              <div className="rounded-2xl border border-[#1e1e1e] bg-[#111] overflow-hidden">
-                {horarios.map(({ day, time, note }, i) => (
+              {/* Day headers */}
+              <div className="grid grid-cols-7 border-b border-[#1e1e1e]">
+                {calendarDays.map((d) => (
                   <div
-                    key={day}
-                    className={`flex items-start justify-between p-4 gap-4 ${i < horarios.length - 1 ? "border-b border-[#1e1e1e]" : ""}`}
+                    key={d.short}
+                    className={`py-3 text-center border-r border-[#1e1e1e] last:border-r-0 ${d.optional ? "opacity-50" : ""}`}
                   >
-                    <div>
-                      <p className="text-[#7EEF08] font-semibold text-sm">{day}</p>
-                      {note && <p className="text-white/35 text-xs mt-0.5">{note}</p>}
-                    </div>
-                    <p className="text-white font-display text-lg tracking-wide shrink-0">{time}</p>
+                    <p className="font-display text-base lg:text-lg text-white tracking-wide">{d.short}</p>
+                    {d.optional && (
+                      <p className="text-[10px] text-white/30 uppercase tracking-widest leading-none mt-0.5">opt.</p>
+                    )}
                   </div>
                 ))}
               </div>
-            </div>
 
+              {/* Calendar body */}
+              <div className="grid grid-cols-7">
+                {calendarDays.map((d) => (
+                  <div
+                    key={d.short}
+                    className={`border-r border-[#1e1e1e] last:border-r-0 p-2 flex flex-col gap-2 min-h-[130px] ${d.optional ? "opacity-50" : ""}`}
+                  >
+                    {/* Musculación block */}
+                    <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg p-2 text-center">
+                      <p className="text-white/70 text-[11px] font-semibold leading-tight">Musc.</p>
+                      <p className="text-white/35 text-[10px] leading-tight mt-0.5">{d.muscHours}</p>
+                    </div>
+
+                    {/* Activity slots */}
+                    {d.slots.map((slot) => (
+                      <div
+                        key={slot.name}
+                        className="rounded-lg p-2 text-center"
+                        style={{ background: slot.color + "18", border: `1px solid ${slot.color}35` }}
+                      >
+                        <p className="text-[11px] font-bold leading-tight" style={{ color: slot.color }}>{slot.name}</p>
+                        <p className="text-white/40 text-[10px] leading-tight mt-0.5">{slot.time}</p>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+
+            </div>
+          </div>
+
+          {/* Legend */}
+          <div className="flex flex-wrap gap-4 mt-4 justify-center">
+            {[
+              { label: "Musculación libre", color: "#ffffff55" },
+              { label: "Funcional (clase grupal)", color: "#7EEF08" },
+              { label: "Yoga (clase grupal)", color: "#a3e635" },
+              { label: "* Domingo sin profe", color: "#ffffff30" },
+            ].map(({ label, color }) => (
+              <div key={label} className="flex items-center gap-2">
+                <span className="w-3 h-3 rounded-sm shrink-0" style={{ background: color }} />
+                <span className="text-white/35 text-xs">{label}</span>
+              </div>
+            ))}
           </div>
         </div>
+
+        {/* ── Class summary cards ── */}
+        <div className="grid sm:grid-cols-3 gap-5 reveal">
+          {classSummary.map((cls) => (
+            <div
+              key={cls.name}
+              className="bg-[#111] border border-[#1e1e1e] rounded-2xl p-5 hover:border-[#2a2a2a] transition-colors"
+            >
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="font-display text-2xl tracking-wide text-white">{cls.name.toUpperCase()}</h3>
+                <span className="text-xs font-bold" style={{ color: cls.color }}>{cls.price}</span>
+              </div>
+              <p className="text-white/45 text-xs mb-4 leading-relaxed">{cls.desc}</p>
+              <div className="space-y-1.5">
+                <div className="flex items-center gap-2">
+                  <span className="text-white/30 text-xs uppercase tracking-widest w-10">Días</span>
+                  <span className="text-white/70 text-xs font-medium">{cls.days}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-white/30 text-xs uppercase tracking-widest w-10">Hora</span>
+                  <span className="text-white/70 text-xs font-medium">{cls.time}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* CTA */}
+        <div className="text-center mt-10 reveal">
+          <a
+            href="https://wa.me/5491168272020?text=Hola%2C%20quiero%20info%20sobre%20los%20horarios%20y%20clases%20de%20Warriors%20Sport"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 bg-[#7EEF08] hover:bg-[#5abc06] text-black font-bold px-10 py-4 rounded-xl text-sm uppercase tracking-widest transition-all duration-200 hover:scale-105 shadow-lg shadow-[#7EEF08]/20"
+          >
+            Consultar horarios por WhatsApp
+          </a>
+        </div>
+
       </div>
     </section>
   );

@@ -65,7 +65,7 @@ export default function ReviewsSection() {
             </div>
             <div className="text-left">
               <p className="text-white font-display text-2xl tracking-wide leading-none">5.0</p>
-              <p className="text-white/40 text-xs">en Google Business</p>
+              <p className="text-white/40 text-xs">en Google Reviews</p>
             </div>
             <div className="border-l border-[#1e1e1e] pl-3 ml-1">
               <svg viewBox="0 0 48 48" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
@@ -79,7 +79,7 @@ export default function ReviewsSection() {
         </div>
 
         {/* Reviews grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
           {reviews.map((r, i) => (
             <div
               key={r.name}
@@ -109,6 +109,24 @@ export default function ReviewsSection() {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Ver más */}
+        <div className="text-center reveal">
+          <a
+            href="https://www.google.com/maps/place/Warriors+Sport+Arg+S.+M./@-34.5757057,-58.5346975,17z/data=!4m8!3m7!1s0x95bcb7bc9ac68f5d:0x9320f80df6b9dfeb!8m2!3d-34.5757101!4d-58.5321226!9m1!1b1"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 border border-[#7EEF08]/40 hover:border-[#7EEF08] text-white/70 hover:text-white px-8 py-3.5 rounded-xl text-sm font-semibold uppercase tracking-widest transition-all duration-200 hover:bg-[#7EEF08]/5"
+          >
+            <svg viewBox="0 0 48 48" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+              <path fill="#4285F4" d="M44.5 20H24v8.5h11.8C34.7 33.9 30.1 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 4.1 29.6 2 24 2 11.8 2 2 11.8 2 24s9.8 22 22 22c11 0 21-8 21-22 0-1.3-.2-2.7-.5-4z"/>
+              <path fill="#34A853" d="M6.3 14.7l7 5.1C15.2 16.3 19.3 13 24 13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 4.1 29.6 2 24 2 16.4 2 9.9 7.4 6.3 14.7z"/>
+              <path fill="#FBBC05" d="M24 46c5.5 0 10.5-1.9 14.4-5l-6.6-5.6C29.7 37 27 38 24 38c-6 0-11-4-12.9-9.5l-7 5.4C7.9 41.9 15.4 46 24 46z"/>
+              <path fill="#EA4335" d="M44.5 20H24v8.5h11.8c-.8 2.5-2.4 4.6-4.5 6l6.6 5.6C41.6 37 44.5 31 44.5 24c0-1.3-.2-2.7-.5-4z"/>
+            </svg>
+            Ver más reseñas en Google
+          </a>
         </div>
       </div>
     </section>

@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
-import { Inter, Bebas_Neue } from "next/font/google";
+import { Inter, Bebas_Neue, Montserrat } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 
-const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
-const bebasNeue = Bebas_Neue({ variable: "--font-bebas", weight: "400", subsets: ["latin"] });
+const inter      = Inter({ variable: "--font-inter",      subsets: ["latin"] });
+const bebasNeue  = Bebas_Neue({ variable: "--font-bebas", weight: "400", subsets: ["latin"] });
+const montserrat = Montserrat({ variable: "--font-montserrat", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Warriors Sport Arg | San Martín — Tu 2da Casa",
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className={`${inter.variable} ${bebasNeue.variable}`}>
+    <html lang="es" className={`${inter.variable} ${bebasNeue.variable} ${montserrat.variable}`}>
       <body className="min-h-screen flex flex-col bg-black text-white">
         <Navbar />
         <main className="flex-1">{children}</main>

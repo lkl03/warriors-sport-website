@@ -14,30 +14,16 @@ export default function FinalCTASection() {
 
       <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
 
-        <p className="text-[#7EEF08] text-xs font-bold uppercase tracking-[0.4em] mb-5">¿Listo para empezar?</p>
+        <p className="text-[#7EEF08] text-xs font-bold uppercase tracking-[0.4em] mb-5">¿Listo para arrancar?</p>
 
         <h2 className="font-display text-[clamp(3.5rem,10vw,8rem)] leading-none tracking-wider mb-5">
           <span className="text-white">EMPEZÁ</span><br />
           <span className="text-[#7EEF08] green-glow">HOY</span>
         </h2>
 
-        <p className="text-white/55 text-base lg:text-lg mb-4 leading-relaxed max-w-xl mx-auto">
-          Tu primera clase de prueba es <strong className="text-white">gratis</strong>.<br />
+        <p className="text-white/55 text-base lg:text-lg mb-10 leading-relaxed max-w-xl mx-auto">
           Escribinos por WhatsApp y te contamos todo.
         </p>
-
-        {/* Taglines */}
-        <div className="flex flex-wrap justify-center gap-3 mb-10">
-          {[
-            "🏠 Tu segunda casa",
-            "💥 Donde empieza tu transformación",
-            "🏋️‍♂️ Más que un gym, una familia",
-          ].map((t) => (
-            <span key={t} className="bg-[#7EEF08]/8 border border-[#7EEF08]/20 text-white/60 text-xs px-3 py-1.5 rounded-full">
-              {t}
-            </span>
-          ))}
-        </div>
 
         <a
           href={WA_LINK}
@@ -51,7 +37,6 @@ export default function FinalCTASection() {
           Escribinos por WhatsApp
         </a>
 
-        <p className="text-white/25 text-xs mt-6">11 6827-2020 · Warriors Sport San Martín</p>
       </div>
     </section>
   );

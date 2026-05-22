@@ -13,7 +13,7 @@ export default function AboutSection() {
             </p>
             <h2 className="font-display text-5xl lg:text-7xl text-white tracking-wider leading-none mb-6">
               MÁS QUE<br />
-              <span className="text-[#7EEF08] green-glow">UN GYM</span>
+              <span className="text-[#7EEF08] green-glow">UN GIMNASIO</span>
             </h2>
             <p className="text-white/65 text-base lg:text-lg leading-relaxed mb-4">
               Warriors Sport nació para ser <strong className="text-white">tu segunda casa</strong>. Un espacio donde cada persona, sin importar su nivel, encuentra el entorno ideal para transformarse — física y mentalmente.
@@ -35,40 +35,58 @@ export default function AboutSection() {
             </div>
           </div>
 
-          {/* Media: video + image collage */}
-          <div className="reveal-right space-y-4">
-            {/* Video */}
-            <div className="rounded-2xl overflow-hidden border border-[#1e1e1e] aspect-video bg-[#0d0d0d]">
-              <video
-                src="/images/gym-video.mp4"
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="w-full h-full object-cover"
-              />
-            </div>
+          {/* 5-space gallery: 2 imgs · video (full width) · 2 imgs */}
+          <div className="reveal-right">
+            <div className="grid grid-cols-2 gap-3">
 
-            {/* Two image thumbnails */}
-            <div className="grid grid-cols-2 gap-4">
+              {/* Row 1: two images */}
+              <div className="rounded-xl overflow-hidden border border-[#1e1e1e] aspect-square">
+                <Image
+                  src="/images/gym-floor.webp"
+                  alt="Planta baja Warriors Sport"
+                  width={400} height={400}
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                />
+              </div>
               <div className="rounded-xl overflow-hidden border border-[#1e1e1e] aspect-square">
                 <Image
                   src="/images/gym-reception.webp"
                   alt="Recepción Warriors Sport"
-                  width={300}
-                  height={300}
+                  width={400} height={400}
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+
+              {/* Row 2: video full width */}
+              <div className="col-span-2 rounded-2xl overflow-hidden border border-[#1e1e1e]" style={{ aspectRatio: "16/7" }}>
+                <video
+                  src="/images/gym-video.mp4"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="w-full h-full object-cover"
+                />
+              </div>
+
+              {/* Row 3: two images */}
+              <div className="rounded-xl overflow-hidden border border-[#1e1e1e] aspect-square">
+                <Image
+                  src="/images/gym-machine-brand.webp"
+                  alt="Equipamiento Warriors Sport"
+                  width={400} height={400}
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                 />
               </div>
               <div className="rounded-xl overflow-hidden border border-[#1e1e1e] aspect-square">
                 <Image
-                  src="/images/gym-machine-brand.webp"
-                  alt="Equipamiento Warriors Sport"
-                  width={300}
-                  height={300}
+                  src="/images/gym-weights.webp"
+                  alt="Pesas Warriors Sport"
+                  width={400} height={400}
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                 />
               </div>
+
             </div>
           </div>
 
