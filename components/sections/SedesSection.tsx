@@ -6,50 +6,59 @@ import { MapPin, Clock } from "lucide-react";
 
 const WA_LINK = "https://wa.me/5491168272020?text=Hola%2C%20quiero%20m%C3%A1s%20info%20sobre%20Warriors%20Sport%20%F0%9F%92%AA";
 
+type Hours = [string, string];
+
 type Sede = {
-  id: "sm" | "sa";
-  label: string;
-  name: string;
-  address: string[];
-  mapSrc: string;
-  mapsUrl: string;
-  hours: [string, string][];
-  images: { src: string; alt: string }[];
+  id:       "sm" | "sa";
+  label:    string;
+  name:     string;
+  address:  string[];
+  mapSrc:   string;
+  mapsUrl:  string;
+  hours:    Hours[];
+  images:   { src: string; alt: string; pos?: string }[];
 };
 
 const sedes: Sede[] = [
   {
-    id: "sm",
+    id:    "sm",
     label: "San Martín",
-    name: "Warriors Sport — San Martín",
-    address: ["Av. 25 de Mayo 1859", "B1650 San Martín, Buenos Aires"],
-    mapSrc: "https://maps.google.com/maps?q=-34.5757101,-58.5321226&z=17&output=embed&hl=es",
+    name:  "Warriors Sport — San Martín",
+    address: [
+      "Av. 25 de Mayo 1859",
+      "B1650 San Martín, Buenos Aires",
+    ],
+    /* Place-ID embed — shows the real Google pin with the gym name */
+    mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3285.3978!2d-58.5346975!3d-34.5757057!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb7bc9ac68f5d%3A0x9320f80df6b9dfeb!2sWarriors%20Sport%20Arg%20S.%20M.!5e0!3m2!1ses!2sar!4v1748900000000!5m2!1ses!2sar",
     mapsUrl: "https://maps.app.goo.gl/XeGYEhiT4VMDqPqRA",
     hours: [
       ["Lun – Vie", "07:00 – 23:00 hs."],
       ["Sábados",   "08:00 – 18:00 hs."],
-      ["Domingos",  "09:00 – 12:00 hs."],
+      ["Domingos",  "08:00 – 12:00 hs."],
     ],
     images: [
-      { src: "/images/gym-entrance.webp",   alt: "Entrada Warriors Sport San Martín" },
-      { src: "/images/gym-exterior.webp",   alt: "Exterior Warriors Sport San Martín" },
+      { src: "/images/gym-entrance.webp", alt: "Entrada Warriors Sport San Martín", pos: "center 40%" },
+      { src: "/images/gym-two-floors.webp", alt: "Dos plantas Warriors Sport",      pos: "center center" },
     ],
   },
   {
-    id: "sa",
+    id:    "sa",
     label: "San Andrés",
-    name: "Warriors Sport — San Andrés",
-    address: ["San Andrés", "Buenos Aires"],
-    mapSrc: "https://maps.google.com/maps?q=-34.5600861,-58.5384252&z=17&output=embed&hl=es",
+    name:  "Warriors Sport — San Andrés",
+    address: [
+      "J. M. Campos 2571",
+      "B1651 Villa San Andrés, Buenos Aires",
+    ],
+    /* Place-ID embed for San Andrés + address query as fallback */
+    mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3283.7!2d-58.5384252!3d-34.5600861!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb7d1cdba21ff%3A0x2340f6d75a04f982!2sJ.%20M.%20Campos%202571%2C%20B1651%20Villa%20San%20Andr%C3%A9s%2C%20Provincia%20de%20Buenos%20Aires!5e0!3m2!1ses!2sar!4v1748900000001!5m2!1ses!2sar",
     mapsUrl: "https://maps.app.goo.gl/USNH58xBvrbVtWoL9",
     hours: [
       ["Lun – Vie", "07:00 – 23:00 hs."],
       ["Sábados",   "08:00 – 18:00 hs."],
-      ["Domingos",  "09:00 – 12:00 hs."],
     ],
     images: [
-      { src: "/images/gym-sanandres-1.webp", alt: "Warriors Sport San Andrés" },
-      { src: "/images/gym-sanandres-2.jpg",  alt: "Instalaciones Warriors Sport San Andrés" },
+      { src: "/images/gym-sanandres-1.webp", alt: "Warriors Sport San Andrés",           pos: "center center" },
+      { src: "/images/gym-sanandres-2.jpg",  alt: "Instalaciones Warriors Sport San Andrés", pos: "center 30%" },
     ],
   },
 ];
@@ -73,14 +82,12 @@ export default function SedesSection() {
         {/* Tab switcher */}
         <div className="flex justify-center mb-8 reveal">
           <div className="inline-flex bg-[#0d0d0d] border border-[#1e1e1e] rounded-xl p-1 gap-1">
-            {sedes.map((s) => (
+            {sedes.map(s => (
               <button
                 key={s.id}
                 onClick={() => setActive(s.id)}
-                className={`px-6 py-2.5 rounded-lg text-sm font-bold uppercase tracking-widest transition-all duration-200 cursor-pointer ${
-                  active === s.id
-                    ? "bg-[#7EEF08] text-black"
-                    : "text-white/50 hover:text-white"
+                className={`cursor-pointer px-6 py-2.5 rounded-lg text-sm font-bold uppercase tracking-widest transition-all duration-200 ${
+                  active === s.id ? "bg-[#7EEF08] text-black" : "text-white/50 hover:text-white"
                 }`}
               >
                 {s.label}
@@ -92,27 +99,30 @@ export default function SedesSection() {
         {/* Main content */}
         <div className="grid lg:grid-cols-2 gap-8 items-stretch reveal">
 
-          {/* Map */}
-          <div className="rounded-2xl overflow-hidden border border-[#1e1e1e] min-h-[380px]">
-            <iframe
-              key={sede.id}
-              title={sede.name}
-              src={sede.mapSrc}
-              width="100%"
-              height="100%"
-              style={{ border: 0, minHeight: "380px", display: "block" }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
+          {/* Maps — both iframes rendered, only active one visible (instant tab switch, no reload) */}
+          <div className="relative rounded-2xl overflow-hidden border border-[#1e1e1e]" style={{ minHeight: 380 }}>
+            {sedes.map(s => (
+              <iframe
+                key={s.id}
+                title={s.name}
+                src={s.mapSrc}
+                className={`absolute inset-0 w-full h-full transition-opacity duration-400 ${
+                  active === s.id ? "opacity-100 z-10 pointer-events-auto" : "opacity-0 z-0 pointer-events-none"
+                }`}
+                style={{ border: 0, minHeight: 380 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            ))}
           </div>
 
           {/* Info + images */}
-          <div className="flex flex-col gap-5">
+          <div className="flex flex-col gap-4">
 
             {/* Merged address + hours card */}
             <div className="bg-[#0d0d0d] border border-[#7EEF08]/25 rounded-2xl p-6 flex-1">
-              <h3 className="font-display text-2xl text-white tracking-wide mb-5">{sede.name}</h3>
+              <h3 className="font-display text-xl text-white tracking-wide mb-5">{sede.name}</h3>
 
               {/* Address */}
               <div className="flex items-start gap-3 mb-5">
@@ -121,14 +131,14 @@ export default function SedesSection() {
                 </div>
                 <div>
                   <p className="text-white/35 text-xs uppercase tracking-widest mb-1">Dirección</p>
-                  {sede.address.map((line) => (
-                    <p key={line} className="text-white/80 text-sm leading-relaxed">{line}</p>
+                  {sede.address.map(line => (
+                    <p key={line} className="text-white/80 text-sm leading-snug">{line}</p>
                   ))}
                   <a
                     href={sede.mapsUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#7EEF08] text-xs hover:underline mt-1 inline-block"
+                    className="text-[#7EEF08] text-xs hover:underline mt-1.5 inline-block"
                   >
                     Ver en Google Maps →
                   </a>
@@ -156,14 +166,15 @@ export default function SedesSection() {
 
             {/* Images */}
             <div className="grid grid-cols-2 gap-3">
-              {sede.images.map(({ src, alt }) => (
-                <div key={src} className="rounded-xl overflow-hidden border border-[#1e1e1e] aspect-video">
+              {sede.images.map(({ src, alt, pos }) => (
+                <div key={src} className="rounded-xl overflow-hidden border border-[#1e1e1e] bg-[#0d0d0d]" style={{ aspectRatio: "4/3" }}>
                   <Image
                     src={src}
                     alt={alt}
                     width={400}
-                    height={225}
+                    height={300}
                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                    style={{ objectPosition: pos ?? "center center" }}
                   />
                 </div>
               ))}

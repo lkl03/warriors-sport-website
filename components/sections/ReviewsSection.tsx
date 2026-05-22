@@ -1,48 +1,56 @@
-/* Reviews section — based on Warriors Sport Arg Google Business 5-star rating.
-   Representative reviews reflecting real sentiment from their Google profile. */
+/* Reviews — real Google reviews from Warriors Sport Arg S. M. */
+
+const MAPS_URL =
+  "https://www.google.com/maps/place/Warriors+Sport+Arg+S.+M./@-34.5757057,-58.5346975,17z/data=!4m8!3m7!1s0x95bcb7bc9ac68f5d:0x9320f80df6b9dfeb!8m2!3d-34.5757101!4d-58.5321226!9m1!1b1!16s%2Fg%2F11y0b8m7c2?entry=ttu&g_ep=EgoyMDI2MDUyMC4wIKXMDSoASAFQAw%3D%3D";
 
 const reviews = [
   {
-    name: "Rodrigo M.",
-    date: "hace 2 meses",
-    text: "Excelente gimnasio. El ambiente es increíble, los profes siempre atentos y el equipamiento está en perfecto estado. Vengo hace más de un año y no cambiaría nada.",
-    avatar: "R",
-    stars: 5,
+    name:   "Silvana Mariel Barbito",
+    role:   "Local Guide",
+    date:   "hace 4 meses",
+    avatar: "S",
+    stars:  5,
+    text:   "Gimnasio de alto nivel, equipos nuevos y ambiente de calidad. Atención personalizada de los profes. Te arman rutina de gym y asesoran en lo que necesites. Amplios espacios para entrenar. Precios de cuota y clases acordes al nivel que ofrecen. Super recomendado!!!",
   },
   {
-    name: "Valentina S.",
-    date: "hace 3 meses",
-    text: "Lo mejor de San Martín sin dudas. Las clases de Yoga son una pasada, el lugar es muy cómodo y el trato es de 10. Súper recomendado para toda la familia.",
-    avatar: "V",
-    stars: 5,
-  },
-  {
-    name: "Federico L.",
-    date: "hace 5 meses",
-    text: "Vine por primera vez y me quedé. La infraestructura es de primer nivel, las dos plantas están re bien equipadas. Los instructores son profesionales de verdad.",
-    avatar: "F",
-    stars: 5,
-  },
-  {
-    name: "Camila B.",
-    date: "hace 1 mes",
-    text: "Empecé con Funcional desde cero y ya me noto cambios en pocas semanas. El profe explica muy bien y te corrige la técnica. Un gusto entrenar acá.",
-    avatar: "C",
-    stars: 5,
-  },
-  {
-    name: "Lucas A.",
-    date: "hace 4 meses",
-    text: "Horarios perfectos, lugar espacioso, limpio y ordenado. El precio es justo para todo lo que ofrecen. Ya lo recomendé a varios amigos y vinieron todos.",
-    avatar: "L",
-    stars: 5,
-  },
-  {
-    name: "Martina G.",
-    date: "hace 2 meses",
-    text: "Una comunidad hermosa. Desde que llegué el trato fue excelente. Se nota que los dueños se preocupan por el detalle y porque todos los socios estén cómodos.",
+    name:   "Mir Barrios",
+    role:   "Local Guide",
+    date:   "hace 7 meses",
     avatar: "M",
-    stars: 5,
+    stars:  5,
+    text:   "Excelente gimnasio! Muy completo, 3 pisos de máquinas!!!!! Y todas nuevas! Es espacioso, tiene 2 pisos más de actividades recreativas más otro piso de abdominales! Ver para creer!!! Increíble para entrenar, el mejor de san Martín.",
+  },
+  {
+    name:   "Blaz Lopez",
+    role:   "",
+    date:   "hace 2 meses",
+    avatar: "B",
+    stars:  5,
+    text:   "La verdad es que este gimnasio me sorprendió por bien y por eso se merece las 5 estrellas. Tiene máquinas nuevas, todo está bien cuidado y la iluminación es excelente, lo que hace que entrenar sea mucho más cómodo. Cuenta con tres pisos, cada uno con diferentes máquinas, y la verdad que impresiona lo grande que es el lugar. A diferencia de muchos gimnasios que se llenan en ciertos horarios, acá se puede entrenar bastante tranquilo. Por lo demás, es un gimnasio casi perfecto. Sin dudas, vale la pena invertir tu sueldo en entrenar acá.",
+  },
+  {
+    name:   "Nilceia Da Silva Azevedo",
+    role:   "Local Guide",
+    date:   "hace 7 meses",
+    avatar: "N",
+    stars:  5,
+    text:   "Excelente gimnasio! La instalación es muy grande con varios pisos y super equipado con máquinas nuevas. El mejor de la zona! Destaco la buena onda en la atención! Ale que está en recepción muy simpática y los profes son muy atentos, te explican super bien los ejercicios!",
+  },
+  {
+    name:   "Damian Esta",
+    role:   "Local Guide",
+    date:   "hace 4 meses",
+    avatar: "D",
+    stars:  5,
+    text:   "Gran cantidad y variedad de máquinas, muy amplio el lugar, muy buena atención del personal, y cerquita de la peatonal!!!",
+  },
+  {
+    name:   "Pablo Labolida",
+    role:   "",
+    date:   "hace 3 meses",
+    avatar: "P",
+    stars:  5,
+    text:   "Excelente gimnasio! Máquinas nuevas y en cantidad, lugar de sobra que va a seguir llenándose de máquinas, horario amplio y profes excelentes. No se puede pedir más, muy recomendable.",
   },
 ];
 
@@ -78,12 +86,12 @@ export default function ReviewsSection() {
           </div>
         </div>
 
-        {/* Reviews grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
+        {/* Reviews — masonry-style columns for natural height variation */}
+        <div className="columns-1 sm:columns-2 lg:columns-3 gap-5 mb-10">
           {reviews.map((r, i) => (
             <div
               key={r.name}
-              className={`reveal reveal-delay-${(i % 3) + 1} bg-[#0d0d0d] border border-[#1e1e1e] rounded-2xl p-6 flex flex-col gap-4 hover:border-[#2a2a2a] transition-colors duration-300`}
+              className={`break-inside-avoid mb-5 reveal reveal-delay-${(i % 3) + 1} bg-[#0d0d0d] border border-[#1e1e1e] rounded-2xl p-6 flex flex-col gap-4 hover:border-[#2a2a2a] transition-colors duration-300`}
             >
               {/* Stars */}
               <div className="flex gap-0.5">
@@ -91,19 +99,25 @@ export default function ReviewsSection() {
               </div>
 
               {/* Text */}
-              <p className="text-white/65 text-sm leading-relaxed flex-1">"{r.text}"</p>
+              <p className="text-white/65 text-sm leading-relaxed">"{r.text}"</p>
 
               {/* Author */}
               <div className="flex items-center gap-3 pt-2 border-t border-[#1a1a1a]">
                 <div className="w-9 h-9 rounded-full bg-[#7EEF08]/15 border border-[#7EEF08]/25 flex items-center justify-center shrink-0">
                   <span className="text-[#7EEF08] font-bold text-sm">{r.avatar}</span>
                 </div>
-                <div>
-                  <p className="text-white text-sm font-semibold">{r.name}</p>
-                  <p className="text-white/30 text-xs">{r.date}</p>
+                <div className="flex-1 min-w-0">
+                  <p className="text-white text-sm font-semibold truncate">{r.name}</p>
+                  <div className="flex items-center gap-2">
+                    {r.role && (
+                      <span className="text-[#7EEF08]/60 text-[10px] font-medium">{r.role}</span>
+                    )}
+                    {r.role && <span className="text-white/20 text-[10px]">·</span>}
+                    <span className="text-white/30 text-[10px]">{r.date}</span>
+                  </div>
                 </div>
                 {/* Google G */}
-                <svg viewBox="0 0 24 24" width="16" height="16" className="ml-auto shrink-0 opacity-40" xmlns="http://www.w3.org/2000/svg">
+                <svg viewBox="0 0 24 24" width="16" height="16" className="shrink-0 opacity-40" xmlns="http://www.w3.org/2000/svg">
                   <path fill="#4285F4" d="M22.5 10H12v4.5h6C17.4 17 14.9 18.5 12 18.5c-3.6 0-6.5-2.9-6.5-6.5S8.4 5.5 12 5.5c1.55 0 2.95.55 4.05 1.45l3.2-3.2C17.3 2.05 14.8 1 12 1 5.95 1 1 5.95 1 12s4.95 11 11 11c5.5 0 10.5-4 10.5-11 0-.65-.1-1.35-.25-2z"/>
                 </svg>
               </div>
@@ -114,7 +128,7 @@ export default function ReviewsSection() {
         {/* Ver más */}
         <div className="text-center reveal">
           <a
-            href="https://www.google.com/maps/place/Warriors+Sport+Arg+S.+M./@-34.5757057,-58.5346975,17z/data=!4m8!3m7!1s0x95bcb7bc9ac68f5d:0x9320f80df6b9dfeb!8m2!3d-34.5757101!4d-58.5321226!9m1!1b1"
+            href={MAPS_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-3 border border-[#7EEF08]/40 hover:border-[#7EEF08] text-white/70 hover:text-white px-8 py-3.5 rounded-xl text-sm font-semibold uppercase tracking-widest transition-all duration-200 hover:bg-[#7EEF08]/5"
@@ -128,6 +142,7 @@ export default function ReviewsSection() {
             Ver más reseñas en Google
           </a>
         </div>
+
       </div>
     </section>
   );

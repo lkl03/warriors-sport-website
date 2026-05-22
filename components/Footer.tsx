@@ -21,7 +21,7 @@ export default function Footer() {
               </div>
             </div>
             <p className="text-white/40 text-sm leading-relaxed">
-              Tu 2da casa. Donde empieza tu transformación.
+              Tu segunda casa. Donde empieza tu transformación.
             </p>
           </div>
 
@@ -60,7 +60,8 @@ export default function Footer() {
               {/* San Andrés */}
               <div>
                 <p className="text-white/40 text-xs uppercase tracking-widest mb-1">San Andrés</p>
-                <p className="text-white/70 text-sm">San Andrés, Bs. As.</p>
+                <p className="text-white/70 text-sm">J. M. Campos 2571</p>
+                <p className="text-white/70 text-sm">B1651 Villa San Andrés, Bs. As.</p>
               </div>
 
               {/* WhatsApp */}

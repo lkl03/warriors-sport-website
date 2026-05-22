@@ -50,14 +50,17 @@ export default function HeroSection() {
         </div>
       ))}
 
+      {/* Subtle base overlay — keeps image visible but slightly darkened everywhere */}
+      <div className="absolute inset-0 bg-black/20" />
+
       {/* Directional gradient overlay — desktop: L→R 60%, mobile: T→B 60% */}
       <div
         className="absolute inset-0 hidden sm:block"
-        style={{ background: "linear-gradient(to right, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.78) 35%, rgba(0,0,0,0.3) 60%, transparent 100%)" }}
+        style={{ background: "linear-gradient(to right, rgba(0,0,0,0.97) 0%, rgba(0,0,0,0.90) 35%, rgba(0,0,0,0.5) 60%, transparent 100%)" }}
       />
       <div
         className="absolute inset-0 block sm:hidden"
-        style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.78) 35%, rgba(0,0,0,0.3) 60%, transparent 100%)" }}
+        style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.97) 0%, rgba(0,0,0,0.90) 35%, rgba(0,0,0,0.5) 60%, transparent 100%)" }}
       />
 
       {/* Green accent line left */}
