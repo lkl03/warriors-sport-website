@@ -21,9 +21,9 @@ export default function InstagramSection() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 mb-10 reveal">
           <div>
-            <p className="text-[#7EEF08] text-xs font-bold uppercase tracking-[0.3em] mb-2">Seguinos en Instagram</p>
+            <p className="text-[#7EEF08] text-xs font-bold uppercase tracking-[0.3em] mb-2">warriors en redes</p>
             <h2 className="font-display text-5xl lg:text-6xl text-white tracking-wider leading-none">
-              INSTAGRAM
+              NUESTRO INSTAGRAM
             </h2>
           </div>
           <a

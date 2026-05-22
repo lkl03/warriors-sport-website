@@ -36,18 +36,22 @@ const calendarDays: CalDay[] = [
 
 const groupClasses = [
   {
-    name:  "Funcional" as GroupClass,
-    days:  "Lun / Mié / Vie",
-    time:  "19:00 – 20:00 hs.",
-    price: "$ 50.000 / mes",
-    desc:  "Entrenamiento de alta intensidad. Fuerza, movilidad y cardio en una sola clase.",
+    name:      "Funcional" as GroupClass,
+    days:      "Lun / Mié / Vie",
+    daysShort: "L / M / V",
+    time:      "19:00 – 20:00 hs.",
+    timeShort: "19 – 20h",
+    price:     "$ 50.000 / mes",
+    desc:      "Entrenamiento de alta intensidad. Fuerza, movilidad y cardio en una sola clase.",
   },
   {
-    name:  "Yoga" as GroupClass,
-    days:  "Mar / Jue",
-    time:  "19:00 – 20:00 hs.",
-    price: "$ 50.000 / mes",
-    desc:  "Conectá cuerpo y mente. Flexibilidad, postura y bienestar general.",
+    name:      "Yoga" as GroupClass,
+    days:      "Mar / Jue",
+    daysShort: "Mar / Jue",
+    time:      "19:00 – 20:00 hs.",
+    timeShort: "19 – 20h",
+    price:     "$ 50.000 / mes",
+    desc:      "Conectá cuerpo y mente. Flexibilidad, postura y bienestar general.",
   },
 ];
 
@@ -79,9 +83,60 @@ export default function ScheduleSection() {
           </h2>
         </div>
 
-        {/* ── Weekly calendar grid ── */}
+        {/* ── Weekly calendar ── */}
         <div className="reveal mb-5">
-          <div className="overflow-x-auto rounded-2xl border border-[#1e1e1e]">
+
+          {/* ── MOBILE: vertical pill-row list (< md) ── */}
+          <div className="block md:hidden rounded-2xl border border-[#1e1e1e] overflow-hidden">
+            {calendarDays.map((d, i) => {
+              const isToday      = d.todayIdx === todayIdx;
+              const visibleSlots = d.groupSlots.filter(s => added.has(s.name));
+              return (
+                <div
+                  key={d.short}
+                  className={`flex items-center gap-3 px-4 py-3
+                    ${i < calendarDays.length - 1 ? "border-b border-[#1e1e1e]" : ""}
+                    ${d.optional ? "opacity-50" : ""}
+                    ${isToday ? "bg-[#7EEF08]/5" : ""}`}
+                >
+                  {/* Day label */}
+                  <div className="w-9 shrink-0 text-center">
+                    <p className={`font-display text-sm tracking-wide leading-tight ${isToday ? "text-[#7EEF08]" : "text-white/70"}`}>
+                      {d.short}
+                    </p>
+                    {isToday && (
+                      <p className="text-[8px] text-[#7EEF08]/60 uppercase tracking-widest leading-none mt-0.5">hoy</p>
+                    )}
+                    {d.optional && !isToday && (
+                      <p className="text-[8px] text-white/25 uppercase tracking-widest leading-none mt-0.5">opt.</p>
+                    )}
+                  </div>
+
+                  {/* Activity pills */}
+                  <div className="flex flex-wrap gap-1.5 flex-1">
+                    <span
+                      className="text-[10px] font-bold px-2.5 py-1 rounded-full leading-tight"
+                      style={{ background: "#7EEF0815", border: "1px solid #7EEF0830", color: "#7EEF08" }}
+                    >
+                      Musc. {d.muscHours}
+                    </span>
+                    {visibleSlots.map(slot => (
+                      <span
+                        key={slot.name}
+                        className="text-[10px] font-bold px-2.5 py-1 rounded-full leading-tight transition-all duration-300"
+                        style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.13)", color: GC_COLOR[slot.name] }}
+                      >
+                        {slot.name} {slot.time}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* ── DESKTOP: 7-col grid (≥ md) ── */}
+          <div className="hidden md:block overflow-x-auto rounded-2xl border border-[#1e1e1e]">
             <div className="min-w-[560px]">
 
               {/* Day headers */}
@@ -165,20 +220,22 @@ export default function ScheduleSection() {
             )}
             {added.size < 2 && (
               <span className="text-white/18 text-[11px] italic">
-                Agregá clases grupales para verlas arriba ↑
+                Agregá clases grupales para verlas ↑
               </span>
             )}
           </div>
         </div>
 
-        {/* ── Class cards ────────────────────────────────────────────────────────
+        {/* ── Activity cards ────────────────────────────────────────────────────
+            Mobile:   2-col grid — Musculación spans both cols, groups side by side
+            Desktop:  equal 3-col grid
             Always rendered in a stable wrapper — avoids the scroll-reveal bug
             where conditional unmount/remount leaves reveal class invisible.
             ─────────────────────────────────────────────────────────────────── */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-5">
 
-          {/* Musculación — always on, green, "Siempre disponible" badge */}
-          <div className="bg-[#111] rounded-2xl p-5 border border-[#7EEF08]/30 relative overflow-hidden">
+          {/* Musculación — always on, full-width on mobile */}
+          <div className="col-span-2 md:col-span-1 bg-[#111] rounded-2xl p-4 md:p-5 border border-[#7EEF08]/30 relative overflow-hidden">
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#7EEF08]/40 to-transparent" />
             <div className="flex items-start justify-between gap-2 mb-2">
               <h3 className="font-display text-2xl tracking-wide text-white leading-none">MUSCULACIÓN</h3>
@@ -188,7 +245,7 @@ export default function ScheduleSection() {
               <span className="w-1.5 h-1.5 rounded-full bg-[#7EEF08] animate-pulse" />
               <span className="text-[#7EEF08] text-[10px] font-bold uppercase tracking-widest">Siempre disponible</span>
             </div>
-            <p className="text-white/45 text-xs mb-4 leading-relaxed">
+            <p className="text-white/45 text-xs mb-3 md:mb-4 leading-relaxed hidden md:block">
               Sala libre con equipamiento premium. Instructores certificados.
             </p>
             <div className="space-y-1.5">
@@ -203,44 +260,51 @@ export default function ScheduleSection() {
             </div>
           </div>
 
-          {/* Funcional & Yoga — "add to calendar" interaction */}
+          {/* Funcional & Yoga — side by side on mobile, equal cols on desktop */}
           {groupClasses.map(cls => {
             const isOn  = added.has(cls.name);
             const color = GC_COLOR[cls.name];
             return (
               <div
                 key={cls.name}
-                className={`bg-[#111] rounded-2xl p-5 border transition-colors duration-300 ${
+                className={`col-span-1 bg-[#111] rounded-2xl p-3.5 md:p-5 border transition-colors duration-300 flex flex-col ${
                   isOn ? "border-white/22" : "border-[#1e1e1e]"
                 }`}
               >
-                <div className="flex items-start justify-between gap-2 mb-3">
-                  <h3 className="font-display text-2xl tracking-wide text-white leading-none">{cls.name.toUpperCase()}</h3>
-                  <span className="text-xs font-bold shrink-0 mt-0.5" style={{ color }}>{cls.price}</span>
+                <div className="flex items-start justify-between gap-1 mb-2 md:mb-3">
+                  <h3 className="font-display text-xl md:text-2xl tracking-wide text-white leading-none">{cls.name.toUpperCase()}</h3>
+                  <span className="text-[10px] md:text-xs font-bold shrink-0 mt-0.5" style={{ color }}>{cls.price}</span>
                 </div>
-                <p className="text-white/45 text-xs mb-4 leading-relaxed">{cls.desc}</p>
-                <div className="space-y-1.5 mb-5">
-                  <div className="flex items-start gap-2">
-                    <span className="text-white/25 text-xs uppercase tracking-widest w-10 shrink-0 pt-px">Días</span>
-                    <span className="text-white/70 text-xs font-medium">{cls.days}</span>
+                <p className="text-white/45 text-xs mb-4 leading-relaxed hidden md:block">{cls.desc}</p>
+                <div className="space-y-1 mb-3 md:mb-5 flex-1">
+                  <div className="flex items-start gap-1.5 md:gap-2">
+                    <span className="text-white/25 text-[10px] md:text-xs uppercase tracking-widest w-8 md:w-10 shrink-0 pt-px">Días</span>
+                    <span className="text-white/70 text-[10px] md:text-xs font-medium leading-tight">
+                      <span className="md:hidden">{cls.daysShort}</span>
+                      <span className="hidden md:inline">{cls.days}</span>
+                    </span>
                   </div>
-                  <div className="flex items-start gap-2">
-                    <span className="text-white/25 text-xs uppercase tracking-widest w-10 shrink-0 pt-px">Hora</span>
-                    <span className="text-white/70 text-xs font-medium">{cls.time}</span>
+                  <div className="flex items-start gap-1.5 md:gap-2">
+                    <span className="text-white/25 text-[10px] md:text-xs uppercase tracking-widest w-8 md:w-10 shrink-0 pt-px">Hora</span>
+                    <span className="text-white/70 text-[10px] md:text-xs font-medium leading-tight">
+                      <span className="md:hidden">{cls.timeShort}</span>
+                      <span className="hidden md:inline">{cls.time}</span>
+                    </span>
                   </div>
                 </div>
 
                 {/* Add / remove toggle */}
                 <button
                   onClick={() => toggle(cls.name)}
-                  className="cursor-pointer w-full py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-200 border hover:scale-[1.02]"
+                  className="cursor-pointer w-full py-2 md:py-2.5 rounded-xl text-[10px] md:text-xs font-bold uppercase tracking-wider md:tracking-widest transition-all duration-200 border hover:scale-[1.02]"
                   style={{
                     background:  isOn ? "rgba(255,255,255,0.07)" : "transparent",
                     borderColor: isOn ? "rgba(255,255,255,0.22)" : "rgba(255,255,255,0.10)",
                     color:       isOn ? color : "rgba(255,255,255,0.32)",
                   }}
                 >
-                  {isOn ? `✓ En el calendario` : `+ Agregar al calendario`}
+                  <span className="md:hidden">{isOn ? `✓ Agregada` : `+ Agregar`}</span>
+                  <span className="hidden md:inline">{isOn ? `✓ En el calendario` : `+ Agregar al calendario`}</span>
                 </button>
               </div>
             );

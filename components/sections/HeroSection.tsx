@@ -147,17 +147,17 @@ export default function HeroSection() {
         ))}
       </div>
 
-      {/* Arrows */}
+      {/* Arrows — hidden on mobile to avoid overlap with text content */}
       <button
         onClick={() => go(current - 1)}
-        className="cursor-pointer absolute left-4 top-1/2 -translate-y-1/2 z-20 text-white/50 hover:text-[#7EEF08] transition-colors p-2"
+        className="hidden sm:block cursor-pointer absolute left-4 top-1/2 -translate-y-1/2 z-20 text-white/50 hover:text-[#7EEF08] transition-colors p-2"
         aria-label="Anterior"
       >
         <ChevronLeft size={28} />
       </button>
       <button
         onClick={() => go(current + 1)}
-        className="cursor-pointer absolute right-4 top-1/2 -translate-y-1/2 z-20 text-white/50 hover:text-[#7EEF08] transition-colors p-2"
+        className="hidden sm:block cursor-pointer absolute right-4 top-1/2 -translate-y-1/2 z-20 text-white/50 hover:text-[#7EEF08] transition-colors p-2"
         aria-label="Siguiente"
       >
         <ChevronRight size={28} />
