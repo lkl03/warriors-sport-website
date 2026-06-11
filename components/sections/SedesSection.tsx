@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { MapPin, Clock } from "lucide-react";
+import { MapPin, Clock, Maximize2 } from "lucide-react";
+import MediaModal, { type MediaItem } from "@/components/MediaModal";
 
 const WA_LINK = "https://wa.me/5491168272020?text=Hola%2C%20quiero%20m%C3%A1s%20info%20sobre%20Warriors%20Sport%20%F0%9F%92%AA";
 
@@ -65,6 +66,7 @@ const sedes: Sede[] = [
 
 export default function SedesSection() {
   const [active, setActive] = useState<"sm" | "sa">("sm");
+  const [modal,  setModal]  = useState<MediaItem | null>(null);
   const sede = sedes.find(s => s.id === active)!;
 
   return (
@@ -167,15 +169,23 @@ export default function SedesSection() {
             {/* Images */}
             <div className="grid grid-cols-2 gap-3">
               {sede.images.map(({ src, alt, pos }) => (
-                <div key={src} className="rounded-xl overflow-hidden border border-[#1e1e1e] bg-[#0d0d0d]" style={{ aspectRatio: "4/3" }}>
+                <div
+                  key={src}
+                  className="rounded-xl overflow-hidden border border-[#1e1e1e] bg-[#0d0d0d] relative cursor-pointer group"
+                  style={{ aspectRatio: "4/3" }}
+                  onClick={() => setModal({ src, type: "image", alt })}
+                >
                   <Image
                     src={src}
                     alt={alt}
                     width={400}
                     height={300}
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     style={{ objectPosition: pos ?? "center center" }}
                   />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/35 transition-colors duration-200 flex items-center justify-center">
+                    <Maximize2 size={22} className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 drop-shadow-lg" />
+                  </div>
                 </div>
               ))}
             </div>
@@ -196,6 +206,8 @@ export default function SedesSection() {
         </div>
 
       </div>
+
+      {modal && <MediaModal {...modal} onClose={() => setModal(null)} />}
     </section>
   );
 }
