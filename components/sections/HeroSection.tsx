@@ -33,6 +33,7 @@ export default function HeroSection() {
 
   const onPointerDown = useCallback((e: React.PointerEvent) => {
     dragStartX.current = e.clientX;
+    e.currentTarget.setPointerCapture(e.pointerId);
   }, []);
 
   const onPointerUp = useCallback((e: React.PointerEvent) => {
@@ -46,7 +47,7 @@ export default function HeroSection() {
   return (
     <section
       id="inicio"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden select-none cursor-grab active:cursor-grabbing"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden select-none"
       onPointerDown={onPointerDown}
       onPointerUp={onPointerUp}
       onPointerCancel={() => { dragStartX.current = null; }}

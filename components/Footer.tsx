@@ -1,7 +1,8 @@
 import Image from "next/image";
 import InstagramIcon from "@/components/icons/InstagramIcon";
 
-const WA_LINK = "https://wa.me/5491168272020?text=Hola%2C%20quiero%20m%C3%A1s%20info%20sobre%20Warriors%20Sport%20%F0%9F%92%AA";
+const WA_SM = "https://wa.me/5491168272020?text=Hola%2C%20quiero%20m%C3%A1s%20info%20sobre%20Warriors%20Sport%20San%20Mart%C3%ADn%20%F0%9F%92%AA";
+const WA_SA = "https://wa.me/5491133199615?text=Hola%2C%20quiero%20m%C3%A1s%20info%20sobre%20Warriors%20Sport%20San%20Andr%C3%A9s%20%F0%9F%92%AA";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -66,15 +67,31 @@ export default function Footer() {
 
               {/* WhatsApp */}
               <div>
-                <p className="text-white/40 text-xs uppercase tracking-widest mb-1">WhatsApp</p>
-                <a
-                  href={WA_LINK}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#7EEF08] text-sm hover:underline"
-                >
-                  11 6827-2020
-                </a>
+                <p className="text-white/40 text-xs uppercase tracking-widest mb-2">WhatsApp</p>
+                <div className="space-y-2">
+                  <div>
+                    <p className="text-white/30 text-[11px] uppercase tracking-widest leading-none mb-0.5">San Martín</p>
+                    <a
+                      href={WA_SM}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[#7EEF08] text-sm hover:underline"
+                    >
+                      11 6827-2020
+                    </a>
+                  </div>
+                  <div>
+                    <p className="text-white/30 text-[11px] uppercase tracking-widest leading-none mb-0.5">San Andrés</p>
+                    <a
+                      href={WA_SA}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[#7EEF08] text-sm hover:underline"
+                    >
+                      11 3319-9615
+                    </a>
+                  </div>
+                </div>
               </div>
 
               {/* Instagram */}

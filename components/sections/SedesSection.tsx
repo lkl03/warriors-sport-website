@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { MapPin, Clock, Maximize2 } from "lucide-react";
+import { MapPin, Clock, Maximize2, Phone } from "lucide-react";
 import MediaModal, { type MediaItem } from "@/components/MediaModal";
 
 const WA_LINK = "https://wa.me/5491168272020?text=Hola%2C%20quiero%20m%C3%A1s%20info%20sobre%20Warriors%20Sport%20%F0%9F%92%AA";
@@ -10,14 +10,16 @@ const WA_LINK = "https://wa.me/5491168272020?text=Hola%2C%20quiero%20m%C3%A1s%20
 type Hours = [string, string];
 
 type Sede = {
-  id:       "sm" | "sa";
-  label:    string;
-  name:     string;
-  address:  string[];
-  mapSrc:   string;
-  mapsUrl:  string;
-  hours:    Hours[];
-  images:   { src: string; alt: string; pos?: string }[];
+  id:        "sm" | "sa";
+  label:     string;
+  name:      string;
+  address:   string[];
+  mapSrc:    string;
+  mapsUrl:   string;
+  hours:     Hours[];
+  waDisplay: string;
+  waLink:    string;
+  images:    { src: string; alt: string; pos?: string }[];
 };
 
 const sedes: Sede[] = [
@@ -34,9 +36,11 @@ const sedes: Sede[] = [
     mapsUrl: "https://maps.app.goo.gl/XeGYEhiT4VMDqPqRA",
     hours: [
       ["Lun – Vie", "07:00 – 23:00 hs."],
-      ["Sábados",   "08:00 – 18:00 hs."],
+      ["Sábados",   "09:00 – 18:00 hs."],
       ["Domingos",  "08:00 – 12:00 hs."],
     ],
+    waDisplay: "11 6827-2020",
+    waLink:    "https://wa.me/5491168272020?text=Hola%2C%20quiero%20m%C3%A1s%20info%20sobre%20Warriors%20Sport%20San%20Mart%C3%ADn%20%F0%9F%92%AA",
     images: [
       { src: "/images/gym-entrance.webp", alt: "Entrada Warriors Sport San Martín", pos: "center 40%" },
       { src: "/images/gym-two-floors.webp", alt: "Dos plantas Warriors Sport",      pos: "center center" },
@@ -54,9 +58,12 @@ const sedes: Sede[] = [
     mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3283.7!2d-58.5384252!3d-34.5600861!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb7d1cdba21ff%3A0x2340f6d75a04f982!2sJ.%20M.%20Campos%202571%2C%20B1651%20Villa%20San%20Andr%C3%A9s%2C%20Provincia%20de%20Buenos%20Aires!5e0!3m2!1ses!2sar!4v1748900000001!5m2!1ses!2sar",
     mapsUrl: "https://maps.app.goo.gl/USNH58xBvrbVtWoL9",
     hours: [
-      ["Lun – Vie", "07:00 – 23:00 hs."],
-      ["Sábados",   "08:00 – 18:00 hs."],
+      ["Lun – Vie", "08:00 – 22:00 hs."],
+      ["Sábados",   "09:00 – 13:00 hs."],
+      ["Domingos",  "Cerrado"],
     ],
+    waDisplay: "11 3319-9615",
+    waLink:    "https://wa.me/5491133199615?text=Hola%2C%20quiero%20m%C3%A1s%20info%20sobre%20Warriors%20Sport%20San%20Andr%C3%A9s%20%F0%9F%92%AA",
     images: [
       { src: "/images/gym-sanandres-1.webp", alt: "Warriors Sport San Andrés",           pos: "center center" },
       { src: "/images/gym-sanandres-2.jpg",  alt: "Instalaciones Warriors Sport San Andrés", pos: "center 30%" },
@@ -148,7 +155,7 @@ export default function SedesSection() {
               </div>
 
               {/* Hours */}
-              <div className="flex items-start gap-3">
+              <div className="flex items-start gap-3 mb-5">
                 <div className="w-9 h-9 bg-[#7EEF08]/10 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
                   <Clock size={16} className="text-[#7EEF08]" />
                 </div>
@@ -158,10 +165,28 @@ export default function SedesSection() {
                     {sede.hours.map(([day, hrs]) => (
                       <div key={day} className="flex justify-between items-center">
                         <span className="text-white/55 text-sm">{day}</span>
-                        <span className="text-white/80 text-sm font-medium">{hrs}</span>
+                        <span className={`text-sm font-medium ${hrs === "Cerrado" ? "text-white/35" : "text-white/80"}`}>{hrs}</span>
                       </div>
                     ))}
                   </div>
+                </div>
+              </div>
+
+              {/* WhatsApp */}
+              <div className="flex items-start gap-3">
+                <div className="w-9 h-9 bg-[#7EEF08]/10 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
+                  <Phone size={16} className="text-[#7EEF08]" />
+                </div>
+                <div>
+                  <p className="text-white/35 text-xs uppercase tracking-widest mb-1">WhatsApp</p>
+                  <a
+                    href={sede.waLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#7EEF08] text-sm hover:underline"
+                  >
+                    {sede.waDisplay}
+                  </a>
                 </div>
               </div>
             </div>

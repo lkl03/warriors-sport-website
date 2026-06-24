@@ -3,14 +3,12 @@
 import { useState } from "react";
 
 /* ── Warriors Sport schedule ──────────────────────────────────────────────
-   Musculación:    always — Lun–Vie 07–23h · Sáb 08–18h · Dom 08–12h (opt.)
-   Funcional:      Lun / Mié / Vie  19–20h  ·  $50.000/mes
-   Yoga:           Mar / Jue        19–20h  ·  $50.000/mes
-   Jumping Rebote: Lun / Jue        20h     ·  $50.000/mes · $10.000/clase
-   Árabe Fitness:  Lun 19h / Mié 20h / Jue 18h  ·  $55.000/mes · $10.000/clase
+   San Martín:  Lun–Vie 07–23h · Sáb 09–18h · Dom 08–12h (opt.)
+   San Andrés:  Lun–Vie 08–22h · Sáb 09–13h · Dom cerrado
    ────────────────────────────────────────────────────────────────────────── */
 
 type GroupClass = "Funcional" | "Yoga" | "Jumping" | "Arabe";
+type SedeId = "sm" | "sa";
 
 const GC_COLOR: Record<GroupClass, string> = {
   Funcional: "rgba(210,242,212,0.90)",
@@ -19,7 +17,6 @@ const GC_COLOR: Record<GroupClass, string> = {
   Arabe:     "rgba(242,212,220,0.88)",
 };
 
-/* Short display name used in calendar pills */
 const GC_LABEL: Record<GroupClass, string> = {
   Funcional: "Funcional",
   Yoga:      "Yoga",
@@ -32,34 +29,51 @@ type CalDay = {
   muscHours:  string;
   groupSlots: { name: GroupClass; time: string }[];
   optional?:  boolean;
+  closed?:    boolean;
   todayIdx:   number;
 };
 
-const calendarDays: CalDay[] = [
-  { short: "LUN", muscHours: "07–23h", groupSlots: [{ name: "Funcional", time: "19–20h" }, { name: "Arabe", time: "19h" }],                          todayIdx: 0 },
-  { short: "MAR", muscHours: "07–23h", groupSlots: [{ name: "Yoga",      time: "19–20h" }],                                                          todayIdx: 1 },
-  { short: "MIÉ", muscHours: "07–23h", groupSlots: [{ name: "Funcional", time: "19–20h" }, { name: "Arabe", time: "20h" }],                          todayIdx: 2 },
-  { short: "JUE", muscHours: "07–23h", groupSlots: [{ name: "Yoga",      time: "19–20h" }, { name: "Jumping", time: "20h" }, { name: "Arabe", time: "18h" }], todayIdx: 3 },
-  { short: "VIE", muscHours: "07–23h", groupSlots: [{ name: "Funcional", time: "19–20h" }],                                                          todayIdx: 4 },
-  { short: "SÁB", muscHours: "08–18h", groupSlots: [],                                                                                               todayIdx: 5 },
-  { short: "DOM", muscHours: "08–12h", groupSlots: [], optional: true,                                                                               todayIdx: 6 },
-];
-
-type ClassData = {
-  name:      GroupClass;
-  display:   string;
-  days:      string;
-  daysShort: string;
-  time:      string;
-  timeShort: string;
-  price:     string;
-  priceAlt?: string;
-  desc:      string;
+const calendarDataBySede: Record<SedeId, CalDay[]> = {
+  sm: [
+    { short: "LUN", muscHours: "07–23h", groupSlots: [{ name: "Funcional", time: "19–20h" }, { name: "Arabe", time: "19h" }],                                            todayIdx: 0 },
+    { short: "MAR", muscHours: "07–23h", groupSlots: [{ name: "Yoga",      time: "19–20h" }],                                                                            todayIdx: 1 },
+    { short: "MIÉ", muscHours: "07–23h", groupSlots: [{ name: "Funcional", time: "19–20h" }, { name: "Arabe", time: "20h" }],                                            todayIdx: 2 },
+    { short: "JUE", muscHours: "07–23h", groupSlots: [{ name: "Yoga",      time: "19–20h" }, { name: "Jumping", time: "20h" }, { name: "Arabe", time: "18h" }],          todayIdx: 3 },
+    { short: "VIE", muscHours: "07–23h", groupSlots: [{ name: "Funcional", time: "19–20h" }],                                                                            todayIdx: 4 },
+    { short: "SÁB", muscHours: "09–18h", groupSlots: [],                                                                                                                  todayIdx: 5 },
+    { short: "DOM", muscHours: "08–12h", groupSlots: [], optional: true,                                                                                                   todayIdx: 6 },
+  ],
+  sa: [
+    { short: "LUN", muscHours: "08–22h", groupSlots: [], todayIdx: 0 },
+    { short: "MAR", muscHours: "08–22h", groupSlots: [], todayIdx: 1 },
+    { short: "MIÉ", muscHours: "08–22h", groupSlots: [], todayIdx: 2 },
+    { short: "JUE", muscHours: "08–22h", groupSlots: [], todayIdx: 3 },
+    { short: "VIE", muscHours: "08–22h", groupSlots: [], todayIdx: 4 },
+    { short: "SÁB", muscHours: "09–13h", groupSlots: [], todayIdx: 5 },
+    { short: "DOM", muscHours: "Cerrado", groupSlots: [], optional: true, closed: true, todayIdx: 6 },
+  ],
 };
 
-const groupClasses: ClassData[] = [
+const muscCardBySede: Record<SedeId, { dias: string; hora: string }> = {
+  sm: {
+    dias: "Lun – Sáb + Dom opcional",
+    hora: "Lun–Vie 07–23h · Sáb 09–18h",
+  },
+  sa: {
+    dias: "Lun – Sáb (Dom cerrado)",
+    hora: "Lun–Vie 08–22h · Sáb 09–13h",
+  },
+};
+
+const waLinkBySede: Record<SedeId, string> = {
+  sm: "https://wa.me/5491168272020?text=Hola%2C%20quiero%20info%20sobre%20los%20horarios%20de%20Warriors%20Sport%20San%20Mart%C3%ADn",
+  sa: "https://wa.me/5491133199615?text=Hola%2C%20quiero%20info%20sobre%20los%20horarios%20de%20Warriors%20Sport%20San%20Andr%C3%A9s",
+};
+
+/* kept in data for future reactivation */
+const groupClasses = [
   {
-    name:      "Funcional",
+    name:      "Funcional" as GroupClass,
     display:   "Funcional",
     days:      "Lun / Mié / Vie",
     daysShort: "L / M / V",
@@ -69,7 +83,7 @@ const groupClasses: ClassData[] = [
     desc:      "Entrenamiento de alta intensidad. Fuerza, movilidad y cardio en una sola clase.",
   },
   {
-    name:      "Yoga",
+    name:      "Yoga" as GroupClass,
     display:   "Yoga",
     days:      "Mar / Jue",
     daysShort: "Mar / Jue",
@@ -79,7 +93,7 @@ const groupClasses: ClassData[] = [
     desc:      "Conectá cuerpo y mente. Flexibilidad, postura y bienestar general.",
   },
   {
-    name:      "Jumping",
+    name:      "Jumping" as GroupClass,
     display:   "Jumping Rebote",
     days:      "Lun / Jue",
     daysShort: "Lun / Jue",
@@ -90,7 +104,7 @@ const groupClasses: ClassData[] = [
     desc:      "Cardio de alto impacto en trampolín. Diversión, quema calórica y mejora cardiovascular.",
   },
   {
-    name:      "Arabe",
+    name:      "Arabe" as GroupClass,
     display:   "Árabe Fitness",
     days:      "Lun / Mié / Jue",
     daysShort: "L / M / J",
@@ -107,6 +121,7 @@ const todayIdx = jsDay === 0 ? 6 : jsDay - 1;
 
 export default function ScheduleSection() {
   const [added, setAdded] = useState<Set<GroupClass>>(new Set());
+  const [sede,  setSede]  = useState<SedeId>("sm");
 
   const toggle = (cls: GroupClass) =>
     setAdded(prev => {
@@ -115,16 +130,36 @@ export default function ScheduleSection() {
       return next;
     });
 
+  const calendarDays = calendarDataBySede[sede];
+  const muscCard     = muscCardBySede[sede];
+
   return (
     <section id="horarios" className="py-24 bg-[#0d0d0d]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header */}
-        <div className="text-center mb-10 reveal">
+        <div className="text-center mb-8 reveal">
           <p className="text-[#7EEF08] text-xs font-bold uppercase tracking-[0.3em] mb-3">Planificá tu semana</p>
           <h2 className="font-display text-5xl lg:text-7xl text-white tracking-wider leading-none">
             HORARIOS &amp; <span className="text-[#7EEF08] green-glow">CLASES</span>
           </h2>
+        </div>
+
+        {/* Sede tabs */}
+        <div className="flex justify-center mb-8 reveal">
+          <div className="inline-flex bg-[#111] border border-[#1e1e1e] rounded-xl p-1 gap-1">
+            {([{ id: "sm", label: "San Martín" }, { id: "sa", label: "San Andrés" }] as { id: SedeId; label: string }[]).map(s => (
+              <button
+                key={s.id}
+                onClick={() => setSede(s.id)}
+                className={`cursor-pointer px-6 py-2.5 rounded-lg text-sm font-bold uppercase tracking-widest transition-all duration-200 ${
+                  sede === s.id ? "bg-[#7EEF08] text-black" : "text-white/50 hover:text-white"
+                }`}
+              >
+                {s.label}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* ── Weekly calendar ── */}
@@ -151,9 +186,15 @@ export default function ScheduleSection() {
                     {d.optional && !isToday && <p className="text-[8px] text-white/25 uppercase tracking-widest leading-none mt-0.5">opt.</p>}
                   </div>
                   <div className="flex flex-wrap gap-1.5 flex-1">
-                    <span className="text-[10px] font-bold px-2.5 py-1 rounded-full leading-tight" style={{ background: "#7EEF0815", border: "1px solid #7EEF0830", color: "#7EEF08" }}>
-                      Musc. {d.muscHours}
-                    </span>
+                    {d.closed ? (
+                      <span className="text-[10px] font-bold px-2.5 py-1 rounded-full leading-tight" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.10)", color: "rgba(255,255,255,0.30)" }}>
+                        Cerrado
+                      </span>
+                    ) : (
+                      <span className="text-[10px] font-bold px-2.5 py-1 rounded-full leading-tight" style={{ background: "#7EEF0815", border: "1px solid #7EEF0830", color: "#7EEF08" }}>
+                        Musc. {d.muscHours}
+                      </span>
+                    )}
                     {visibleSlots.map(slot => (
                       <span
                         key={slot.name}
@@ -201,10 +242,16 @@ export default function ScheduleSection() {
                         ${isToday ? "bg-[#7EEF08]/5" : ""}`}
                       style={{ minHeight: 120 }}
                     >
-                      <div className="rounded-lg p-2 text-center" style={{ background: "#7EEF0815", border: "1px solid #7EEF0830" }}>
-                        <p className="text-[11px] font-bold leading-tight text-[#7EEF08]">Musc.</p>
-                        <p className="text-[#7EEF08]/45 text-[10px] leading-tight mt-0.5">{d.muscHours}</p>
-                      </div>
+                      {d.closed ? (
+                        <div className="rounded-lg p-2 text-center" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.10)" }}>
+                          <p className="text-[11px] font-bold leading-tight text-white/30">Cerrado</p>
+                        </div>
+                      ) : (
+                        <div className="rounded-lg p-2 text-center" style={{ background: "#7EEF0815", border: "1px solid #7EEF0830" }}>
+                          <p className="text-[11px] font-bold leading-tight text-[#7EEF08]">Musc.</p>
+                          <p className="text-[#7EEF08]/45 text-[10px] leading-tight mt-0.5">{d.muscHours}</p>
+                        </div>
+                      )}
                       {visibleSlots.map(slot => (
                         <div
                           key={slot.name}
@@ -228,116 +275,91 @@ export default function ScheduleSection() {
               <span className="w-2.5 h-2.5 rounded-sm bg-[#7EEF08]/55" />
               <span className="text-white/30 text-[11px]">Musculación libre</span>
             </div>
-            {(["Funcional","Yoga","Jumping","Arabe"] as GroupClass[]).filter(k => added.has(k)).map(k => (
-              <div key={k} className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-sm" style={{ background: GC_COLOR[k] }} />
-                <span className="text-white/30 text-[11px]">{groupClasses.find(c => c.name === k)?.display}</span>
-              </div>
-            ))}
-            {added.size < groupClasses.length && (
-              <span className="text-white/18 text-[11px] italic">Agregá clases grupales para verlas ↑</span>
-            )}
           </div>
         </div>
 
-        {/* ── Activity cards ──────────────────────────────────────────────────────
-            Layout:
-            - Musculación: full width on mobile, ~30% on lg+
-            - Group classes: 2×2 grid always, takes remaining width on lg+
-            ─────────────────────────────────────────────────────────────────────── */}
-        <div className="flex flex-col lg:flex-row gap-4 lg:gap-5">
-
-          {/* Musculación */}
-          <div className="lg:w-[30%] bg-[#111] rounded-2xl p-5 border border-[#7EEF08]/30 relative overflow-hidden flex flex-col">
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#7EEF08]/40 to-transparent" />
-            <div className="flex items-start justify-between gap-2 mb-2">
-              <h3 className="font-display text-2xl tracking-wide text-white leading-none">MUSCULACIÓN</h3>
-              <span className="text-xs font-bold text-[#7EEF08] shrink-0 mt-0.5">Consultá planes</span>
+        {/* ── Musculación card (full width) ── */}
+        <div className="bg-[#111] rounded-2xl p-5 border border-[#7EEF08]/30 relative overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#7EEF08]/40 to-transparent" />
+          <div className="flex items-start justify-between gap-2 mb-2">
+            <h3 className="font-display text-2xl tracking-wide text-white leading-none">MUSCULACIÓN</h3>
+            <span className="text-xs font-bold text-[#7EEF08] shrink-0 mt-0.5">Consultá planes</span>
+          </div>
+          <div className="inline-flex items-center gap-1.5 bg-[#7EEF08]/10 border border-[#7EEF08]/25 rounded-full px-2.5 py-1 mb-3 w-fit">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#7EEF08] animate-pulse" />
+            <span className="text-[#7EEF08] text-[10px] font-bold uppercase tracking-widest">Siempre disponible</span>
+          </div>
+          <p className="text-white/45 text-xs mb-4 leading-relaxed">
+            Sala libre con equipamiento premium. Instructores certificados.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-8">
+            <div className="flex items-start gap-2">
+              <span className="text-white/25 text-xs uppercase tracking-widest w-10 shrink-0 pt-px">Días</span>
+              <span className="text-white/70 text-xs font-medium">{muscCard.dias}</span>
             </div>
-            <div className="inline-flex items-center gap-1.5 bg-[#7EEF08]/10 border border-[#7EEF08]/25 rounded-full px-2.5 py-1 mb-3 w-fit">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#7EEF08] animate-pulse" />
-              <span className="text-[#7EEF08] text-[10px] font-bold uppercase tracking-widest">Siempre disponible</span>
-            </div>
-            <p className="text-white/45 text-xs mb-4 leading-relaxed">
-              Sala libre con equipamiento premium. Instructores certificados.
-            </p>
-            <div className="space-y-1.5 mt-auto">
-              <div className="flex items-start gap-2">
-                <span className="text-white/25 text-xs uppercase tracking-widest w-10 shrink-0 pt-px">Días</span>
-                <span className="text-white/70 text-xs font-medium">Lun – Sáb + Dom opcional</span>
-              </div>
-              <div className="flex items-start gap-2">
-                <span className="text-white/25 text-xs uppercase tracking-widest w-10 shrink-0 pt-px">Hora</span>
-                <span className="text-white/70 text-xs font-medium">Lun–Vie 07–23h · Sáb 08–18h</span>
-              </div>
+            <div className="flex items-start gap-2">
+              <span className="text-white/25 text-xs uppercase tracking-widest w-10 shrink-0 pt-px">Hora</span>
+              <span className="text-white/70 text-xs font-medium">{muscCard.hora}</span>
             </div>
           </div>
+        </div>
 
-          {/* 4 group classes — 2×2 grid */}
-          <div className="lg:flex-1 grid grid-cols-2 gap-4">
-            {groupClasses.map(cls => {
-              const isOn  = added.has(cls.name);
-              const color = GC_COLOR[cls.name];
-              return (
-                <div
-                  key={cls.name}
-                  className={`bg-[#111] rounded-2xl p-3.5 md:p-4 border transition-colors duration-300 flex flex-col ${
-                    isOn ? "border-white/22" : "border-[#1e1e1e]"
-                  }`}
-                >
-                  {/* Title + price */}
-                  <div className="flex items-start justify-between gap-1 mb-2">
-                    <h3 className="font-display text-lg md:text-xl tracking-wide text-white leading-tight">{cls.display.toUpperCase()}</h3>
-                    <div className="flex flex-col items-end shrink-0 ml-1">
-                      <span className="text-[10px] md:text-xs font-bold leading-tight" style={{ color }}>{cls.price}</span>
-                      {cls.priceAlt && <span className="text-[9px] text-white/30 leading-tight">{cls.priceAlt}</span>}
+        {/* ── Group class cards — hidden, kept for future reactivation ── */}
+        <div className="hidden">
+          <div className="flex flex-col lg:flex-row gap-4 lg:gap-5 mt-4">
+            <div className="lg:flex-1 grid grid-cols-2 gap-4">
+              {groupClasses.map(cls => {
+                const isOn  = added.has(cls.name);
+                const color = GC_COLOR[cls.name];
+                return (
+                  <div key={cls.name} className={`bg-[#111] rounded-2xl p-3.5 md:p-4 border transition-colors duration-300 flex flex-col ${isOn ? "border-white/22" : "border-[#1e1e1e]"}`}>
+                    <div className="flex items-start justify-between gap-1 mb-2">
+                      <h3 className="font-display text-lg md:text-xl tracking-wide text-white leading-tight">{cls.display.toUpperCase()}</h3>
+                      <div className="flex flex-col items-end shrink-0 ml-1">
+                        <span className="text-[10px] md:text-xs font-bold leading-tight" style={{ color }}>{cls.price}</span>
+                        {"priceAlt" in cls && cls.priceAlt && <span className="text-[9px] text-white/30 leading-tight">{cls.priceAlt}</span>}
+                      </div>
                     </div>
+                    <p className="text-white/40 text-[10px] mb-3 leading-relaxed hidden sm:block">{cls.desc}</p>
+                    <div className="space-y-1 mb-3 flex-1">
+                      <div className="flex items-start gap-1.5">
+                        <span className="text-white/25 text-[10px] uppercase tracking-widest w-8 shrink-0 pt-px">Días</span>
+                        <span className="text-white/70 text-[10px] font-medium leading-tight">
+                          <span className="md:hidden">{cls.daysShort}</span>
+                          <span className="hidden md:inline">{cls.days}</span>
+                        </span>
+                      </div>
+                      <div className="flex items-start gap-1.5">
+                        <span className="text-white/25 text-[10px] uppercase tracking-widest w-8 shrink-0 pt-px">Hora</span>
+                        <span className="text-white/70 text-[10px] font-medium leading-tight">
+                          <span className="md:hidden">{cls.timeShort}</span>
+                          <span className="hidden md:inline">{cls.time}</span>
+                        </span>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => toggle(cls.name)}
+                      className="cursor-pointer w-full py-2 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all duration-200 border hover:scale-[1.02]"
+                      style={{
+                        background:  isOn ? "rgba(255,255,255,0.07)" : "transparent",
+                        borderColor: isOn ? "rgba(255,255,255,0.22)" : "rgba(255,255,255,0.10)",
+                        color:       isOn ? color : "rgba(255,255,255,0.32)",
+                      }}
+                    >
+                      <span className="sm:hidden">{isOn ? "✓ Agregada" : "+ Agregar"}</span>
+                      <span className="hidden sm:inline">{isOn ? "✓ En el calendario" : "+ Agregar al calendario"}</span>
+                    </button>
                   </div>
-
-                  {/* Description — hidden on narrow mobile */}
-                  <p className="text-white/40 text-[10px] mb-3 leading-relaxed hidden sm:block">{cls.desc}</p>
-
-                  {/* Days + time */}
-                  <div className="space-y-1 mb-3 flex-1">
-                    <div className="flex items-start gap-1.5">
-                      <span className="text-white/25 text-[10px] uppercase tracking-widest w-8 shrink-0 pt-px">Días</span>
-                      <span className="text-white/70 text-[10px] font-medium leading-tight">
-                        <span className="md:hidden">{cls.daysShort}</span>
-                        <span className="hidden md:inline">{cls.days}</span>
-                      </span>
-                    </div>
-                    <div className="flex items-start gap-1.5">
-                      <span className="text-white/25 text-[10px] uppercase tracking-widest w-8 shrink-0 pt-px">Hora</span>
-                      <span className="text-white/70 text-[10px] font-medium leading-tight">
-                        <span className="md:hidden">{cls.timeShort}</span>
-                        <span className="hidden md:inline">{cls.time}</span>
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Toggle button */}
-                  <button
-                    onClick={() => toggle(cls.name)}
-                    className="cursor-pointer w-full py-2 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all duration-200 border hover:scale-[1.02]"
-                    style={{
-                      background:  isOn ? "rgba(255,255,255,0.07)" : "transparent",
-                      borderColor: isOn ? "rgba(255,255,255,0.22)" : "rgba(255,255,255,0.10)",
-                      color:       isOn ? color : "rgba(255,255,255,0.32)",
-                    }}
-                  >
-                    <span className="sm:hidden">{isOn ? "✓ Agregada" : "+ Agregar"}</span>
-                    <span className="hidden sm:inline">{isOn ? "✓ En el calendario" : "+ Agregar al calendario"}</span>
-                  </button>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </div>
 
         {/* CTA */}
         <div className="text-center mt-10">
           <a
-            href="https://wa.me/5491168272020?text=Hola%2C%20quiero%20info%20sobre%20los%20horarios%20y%20clases%20de%20Warriors%20Sport"
+            href={waLinkBySede[sede]}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-3 bg-[#7EEF08] hover:bg-[#5abc06] text-black font-bold px-10 py-4 rounded-xl text-sm uppercase tracking-widest transition-all duration-200 hover:scale-105 shadow-lg shadow-[#7EEF08]/20"
