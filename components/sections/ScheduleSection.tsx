@@ -304,6 +304,11 @@ export default function ScheduleSection() {
           </div>
         </div>
 
+        {/* Subtle classes hint */}
+        <p className="text-center text-white/25 text-[11px] mt-5 italic tracking-wide">
+          Consultá por clases y actividades especiales
+        </p>
+
         {/* ── Group class cards — hidden, kept for future reactivation ── */}
         <div className="hidden">
           <div className="flex flex-col lg:flex-row gap-4 lg:gap-5 mt-4">
