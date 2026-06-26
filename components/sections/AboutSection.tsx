@@ -45,9 +45,9 @@ export default function AboutSection() {
               <span className="text-[#7EEF08] green-glow">UN GIMNASIO</span>
             </h2>
 
-            {/* Team photo — mobile: right after title; desktop: in text column */}
+            {/* Team photo — hidden until image is ready */}
             <ExpandableMedia
-              className="mb-6 rounded-2xl overflow-hidden border border-[#1e1e1e] bg-[#0d0d0d]"
+              className="hidden mb-6 rounded-2xl overflow-hidden border border-[#1e1e1e] bg-[#0d0d0d]"
               onOpen={() => open({ src: "/images/team.jpg", type: "image", alt: "Equipo Warriors Sport" })}
             >
               <div className="relative w-full" style={{ height: 210 }}>
