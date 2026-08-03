@@ -31,11 +31,11 @@ export default function Footer() {
             <p className="text-[#7EEF08] text-xs font-bold uppercase tracking-[0.25em] mb-4">Navegación</p>
             <ul className="space-y-2.5">
               {[
-                { href: "#inicio",    label: "Inicio" },
-                { href: "#nosotros",  label: "Nosotros" },
-                { href: "#horarios",  label: "Horarios" },
-                { href: "#sedes",     label: "Sedes" },
-                { href: "#contacto",  label: "Contacto" },
+                { href: "/#inicio",    label: "Inicio" },
+                { href: "/#nosotros",  label: "Nosotros" },
+                { href: "/#horarios",  label: "Horarios" },
+                { href: "/#sedes",     label: "Sedes" },
+                { href: "/#contacto",  label: "Contacto" },
               ].map(({ href, label }) => (
                 <li key={href}>
                   <a href={href} className="text-white/45 hover:text-white text-sm transition-colors">

@@ -8,11 +8,15 @@ export type MediaItem = {
   src:  string;
   type: "image" | "video";
   alt?: string;
+  /* Proporción real del archivo. Por defecto apaisado; las fichas de rutinas
+     son verticales y necesitan pasar las suyas. */
+  width?:  number;
+  height?: number;
 };
 
 type Props = MediaItem & { onClose: () => void };
 
-export default function MediaModal({ src, type, alt, onClose }: Props) {
+export default function MediaModal({ src, type, alt, width = 1400, height = 1000, onClose }: Props) {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
     document.addEventListener("keydown", onKey);
@@ -46,8 +50,8 @@ export default function MediaModal({ src, type, alt, onClose }: Props) {
           <Image
             src={src}
             alt={alt ?? ""}
-            width={1400}
-            height={1000}
+            width={width}
+            height={height}
             className="max-h-[90vh] w-auto h-auto object-contain rounded-xl shadow-2xl"
             style={{ maxWidth: "100%" }}
           />

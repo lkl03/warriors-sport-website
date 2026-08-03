@@ -1,0 +1,31 @@
+WARRIORS SPORT ARG — QR de rutinas
+===================================
+
+Todos los códigos de esta carpeta apuntan a:
+  https://www.warriorssportarg.com.ar/rutinas
+
+QUÉ IMPRIMIR
+------------
+  Cartel-rutinas-A4.pdf      Cartel para pared o mostrador (21 × 29,7 cm)
+  Cartel-rutinas-A5.pdf      Media hoja, para varios puntos del gimnasio
+  Sticker-rutinas-10x10.pdf  Cuadrado de 10 × 10 cm para mostrador o espejo
+  QR-rutinas-warriors.svg    Solo el código, vectorial, por si el diseñador
+                             lo quiere meter en otra pieza
+
+Los .pdf son los archivos para la imprenta. Los .png son la misma pieza
+en imagen, para mandar por WhatsApp o subir a redes.
+
+RECOMENDACIONES
+---------------
+  · Imprimir al 100%, sin 'ajustar a la página'.
+  · No achicar el código a menos de 3 cm de lado.
+  · Dejar el marco blanco alrededor del código: es lo que permite leerlo.
+  · No cambiarle el color al código ni invertirlo. Negro sobre blanco es
+    lo que mejor lee cualquier celular.
+  · Colocar a la altura de los ojos y con buena luz.
+
+IMPORTANTE
+----------
+El código es fijo: mientras la dirección no cambie, sirve para siempre.
+Las rutinas de la página se pueden actualizar todas las veces que haga
+falta sin tocar el código impreso.

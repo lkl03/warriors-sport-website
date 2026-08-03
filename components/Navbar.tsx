@@ -5,12 +5,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 
+/* Rutas absolutas (`/#seccion`) para que el menú también funcione desde
+   subpáginas como /rutinas, y no solo desde el home. */
 const links = [
-  { href: "#inicio",    label: "Inicio" },
-  { href: "#nosotros",  label: "Nosotros" },
-  { href: "#horarios",  label: "Horarios" },
-  { href: "#sedes",     label: "Sedes" },
-  { href: "#contacto",  label: "Contacto" },
+  { href: "/#inicio",    label: "Inicio" },
+  { href: "/#nosotros",  label: "Nosotros" },
+  { href: "/#horarios",  label: "Horarios" },
+  { href: "/#sedes",     label: "Sedes" },
+  { href: "/#contacto",  label: "Contacto" },
 ];
 
 const WA_LINK = "https://wa.me/5491168272020?text=Hola%2C%20quiero%20m%C3%A1s%20info%20sobre%20Warriors%20Sport%20%F0%9F%92%AA";
@@ -34,7 +36,7 @@ export default function Navbar() {
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
 
         {/* Logo */}
-        <Link href="#inicio" className="flex items-center gap-2" onClick={() => setOpen(false)}>
+        <Link href="/#inicio" className="flex items-center gap-2" onClick={() => setOpen(false)}>
           <Image src="/images/logo.jpg" alt="Warriors Sport" width={36} height={36} className="rounded" />
           <div className="flex flex-col leading-none">
             <span className="font-display text-white text-base tracking-widest">WARRIORS</span>

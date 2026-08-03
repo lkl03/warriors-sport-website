@@ -10,8 +10,8 @@ const inter      = Inter({ variable: "--font-inter",      subsets: ["latin"] });
 const bebasNeue  = Bebas_Neue({ variable: "--font-bebas", weight: "400", subsets: ["latin"] });
 const montserrat = Montserrat({ variable: "--font-montserrat", subsets: ["latin"] });
 
-/* ── Base URL (update when a custom domain is set) ─────────────────────── */
-const BASE_URL = "https://warriors-sport-website.vercel.app";
+/* ── Base URL — dominio propio del cliente ─────────────────────────────── */
+const BASE_URL = "https://www.warriorssportarg.com.ar";
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
