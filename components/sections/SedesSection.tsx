@@ -2,74 +2,12 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { MapPin, Clock, Maximize2, Phone } from "lucide-react";
+import Link from "next/link";
+import { MapPin, Clock, Maximize2, Phone, Navigation } from "lucide-react";
 import MediaModal, { type MediaItem } from "@/components/MediaModal";
+import { sedes } from "@/lib/sedes";
 
 const WA_LINK = "https://wa.me/5491168272020?text=Hola%2C%20quiero%20m%C3%A1s%20info%20sobre%20Warriors%20Sport%20%F0%9F%92%AA";
-
-type Hours = [string, string];
-
-type Sede = {
-  id:        "sm" | "sa";
-  label:     string;
-  name:      string;
-  address:   string[];
-  mapSrc:    string;
-  mapsUrl:   string;
-  hours:     Hours[];
-  waDisplay: string;
-  waLink:    string;
-  images:    { src: string; alt: string; pos?: string }[];
-};
-
-const sedes: Sede[] = [
-  {
-    id:    "sm",
-    label: "San Martín",
-    name:  "Warriors Sport — San Martín",
-    address: [
-      "Av. 25 de Mayo 1859",
-      "B1650 San Martín, Buenos Aires",
-    ],
-    /* Place-ID embed — shows the real Google pin with the gym name */
-    mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3285.3978!2d-58.5346975!3d-34.5757057!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb7bc9ac68f5d%3A0x9320f80df6b9dfeb!2sWarriors%20Sport%20Arg%20S.%20M.!5e0!3m2!1ses!2sar!4v1748900000000!5m2!1ses!2sar",
-    mapsUrl: "https://maps.app.goo.gl/XeGYEhiT4VMDqPqRA",
-    hours: [
-      ["Lun – Vie", "07:00 – 23:00 hs."],
-      ["Sábados",   "09:00 – 18:00 hs."],
-      ["Domingos",  "08:00 – 12:00 hs."],
-    ],
-    waDisplay: "11 6827-2020",
-    waLink:    "https://wa.me/5491168272020?text=Hola%2C%20quiero%20m%C3%A1s%20info%20sobre%20Warriors%20Sport%20San%20Mart%C3%ADn%20%F0%9F%92%AA",
-    images: [
-      { src: "/images/gym-entrance.webp", alt: "Entrada Warriors Sport San Martín", pos: "center 40%" },
-      { src: "/images/gym-two-floors.webp", alt: "Dos plantas Warriors Sport",      pos: "center center" },
-    ],
-  },
-  {
-    id:    "sa",
-    label: "San Andrés",
-    name:  "Warriors Sport — San Andrés",
-    address: [
-      "J. M. Campos 2571",
-      "B1651 Villa San Andrés, Buenos Aires",
-    ],
-    /* Place-ID embed for San Andrés + address query as fallback */
-    mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3283.7!2d-58.5384252!3d-34.5600861!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb7d1cdba21ff%3A0x2340f6d75a04f982!2sJ.%20M.%20Campos%202571%2C%20B1651%20Villa%20San%20Andr%C3%A9s%2C%20Provincia%20de%20Buenos%20Aires!5e0!3m2!1ses!2sar!4v1748900000001!5m2!1ses!2sar",
-    mapsUrl: "https://maps.app.goo.gl/USNH58xBvrbVtWoL9",
-    hours: [
-      ["Lun – Vie", "08:00 – 22:00 hs."],
-      ["Sábados",   "09:00 – 13:00 hs."],
-      ["Domingos",  "Cerrado"],
-    ],
-    waDisplay: "11 3319-9615",
-    waLink:    "https://wa.me/5491133199615?text=Hola%2C%20quiero%20m%C3%A1s%20info%20sobre%20Warriors%20Sport%20San%20Andr%C3%A9s%20%F0%9F%92%AA",
-    images: [
-      { src: "/images/gym-sanandres-1.webp", alt: "Warriors Sport San Andrés",           pos: "center center" },
-      { src: "/images/gym-sanandres-2.jpg",  alt: "Instalaciones Warriors Sport San Andrés", pos: "center 30%" },
-    ],
-  },
-];
 
 export default function SedesSection() {
   const [active, setActive] = useState<"sm" | "sa">("sm");
@@ -131,7 +69,11 @@ export default function SedesSection() {
 
             {/* Merged address + hours card */}
             <div className="bg-[#0d0d0d] border border-[#7EEF08]/25 rounded-2xl p-6 flex-1">
-              <h3 className="font-display text-xl text-white tracking-wide mb-5">{sede.name}</h3>
+              <h3 className="font-display text-xl text-white tracking-wide mb-5">
+                <Link href={`/sedes/${sede.slug}`} className="hover:text-[#7EEF08] transition-colors">
+                  {sede.name}
+                </Link>
+              </h3>
 
               {/* Address */}
               <div className="flex items-start gap-3 mb-5">
@@ -150,6 +92,14 @@ export default function SedesSection() {
                     className="text-[#7EEF08] text-xs hover:underline mt-1.5 inline-block"
                   >
                     Ver en Google Maps →
+                  </a>
+                  <a
+                    href={sede.directionsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="ml-4 text-[#7EEF08] text-xs hover:underline mt-1.5 inline-flex items-center gap-1"
+                  >
+                    <Navigation size={11} /> Cómo llegar
                   </a>
                 </div>
               </div>
@@ -193,7 +143,7 @@ export default function SedesSection() {
 
             {/* Images */}
             <div className="grid grid-cols-2 gap-3">
-              {sede.images.map(({ src, alt, pos }) => (
+              {sede.images.slice(0, 2).map(({ src, alt, pos }) => (
                 <div
                   key={src}
                   className="rounded-xl overflow-hidden border border-[#1e1e1e] bg-[#0d0d0d] relative cursor-pointer group"

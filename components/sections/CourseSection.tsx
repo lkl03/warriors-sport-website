@@ -30,7 +30,7 @@ export default function CourseSection() {
 
                 <div className="grid grid-cols-2 gap-2.5 mb-7">
                   {[
-                    { icon: "📅", label: "Inicio",    value: "Marzo 2026" },
+                    { icon: "📅", label: "Inicio",    value: "Consultá la próxima fecha" },
                     { icon: "⏱️", label: "Duración",  value: "10 meses" },
                     { icon: "📚", label: "Clases",    value: "Sáb. 09:00–11:00" },
                     { icon: "🏭", label: "Único con", value: "Pasantías laborales" },
