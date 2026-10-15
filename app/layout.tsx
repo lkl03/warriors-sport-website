@@ -3,7 +3,7 @@ import { Inter, Bebas_Neue, Montserrat } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import FloatingWhatsApp from "@/components/FloatingWhatsApp";
+import WarriorsAssistant from "@/components/WarriorsAssistant";
 import { Analytics } from "@vercel/analytics/next";
 import { BASE_URL } from "@/lib/sedes";
 import { siteGraph, jsonLdString } from "@/lib/schema";
@@ -77,7 +77,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
-        <FloatingWhatsApp />
+        <WarriorsAssistant />
         <Analytics />
       </body>
     </html>
