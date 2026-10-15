@@ -7,11 +7,17 @@ import ReviewsSection    from "@/components/sections/ReviewsSection";
 import CourseSection     from "@/components/sections/CourseSection";
 import InstagramSection  from "@/components/sections/InstagramSection";
 import FinalCTASection   from "@/components/sections/FinalCTASection";
+import FAQSection        from "@/components/sections/FAQSection";
+import { homeGraph, jsonLdString } from "@/lib/schema";
 import ScrollRevealProvider from "@/components/ScrollRevealProvider";
 
 export default function Home() {
   return (
     <ScrollRevealProvider>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdString(homeGraph) }}
+      />
       <HeroSection />
       <StatsSection />
       <AboutSection />
@@ -19,6 +25,7 @@ export default function Home() {
       <SedesSection />
       <ReviewsSection />
       <CourseSection />
+      <FAQSection />
       <InstagramSection />
       <FinalCTASection />
     </ScrollRevealProvider>

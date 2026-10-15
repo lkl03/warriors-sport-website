@@ -5,17 +5,24 @@ import { useEffect, useRef, useState } from "react";
 const stats = [
   { value: 2,   suffix: "",  label: "Sedes"               },
   { value: 7,   suffix: "+", label: "Años activos"         },
-  { value: 100, suffix: "%", label: "Clientes satisfechos" },
+  { value: 190, suffix: "+", label: "Reseñas en Google"    },
 ];
 
 function Counter({ target, suffix }: { target: number; suffix: string }) {
-  const [count, setCount] = useState(0);
+  /* Arranca en el valor final para que el HTML del servidor (lo que leen
+     Google y los buscadores con IA) diga "2 Sedes" y no "0 Sedes". Al
+     montar en el navegador se pone en 0 y la animación cuenta hasta el
+     valor cuando la sección entra en pantalla. */
+  const [count, setCount] = useState(target);
   const ref     = useRef<HTMLSpanElement>(null);
   const started = useRef(false);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    const r = el.getBoundingClientRect();
+    if (r.top > window.innerHeight) setCount(0);
+    else started.current = true;
     const obs = new IntersectionObserver(([e]) => {
       if (e.isIntersecting && !started.current) {
         started.current = true;

@@ -98,7 +98,12 @@ export default function HeroSection() {
           className={`mb-5 transition-all duration-700 ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
           style={{ transitionDelay: "0.2s" }}
         >
-          <p className="text-[#7EEF08] text-xs font-bold tracking-[0.4em] uppercase mb-1">Warriors Sport Arg</p>
+          <h1 className="mb-1 flex flex-col items-center gap-1.5">
+            <span className="text-[#7EEF08] text-xs font-bold tracking-[0.4em] uppercase">Warriors Sport Arg</span>
+            <span className="text-white/70 text-[11px] font-semibold tracking-[0.25em] uppercase">
+              Gimnasio en San Martín y San Andrés
+            </span>
+          </h1>
           <p className="text-white/55 text-base lg:text-lg">Tu segunda casa.</p>
         </div>
 

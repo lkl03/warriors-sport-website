@@ -25,6 +25,8 @@ function ExpandableMedia({
   );
 }
 
+const SHOW_TEAM_PHOTO = false;
+
 export default function AboutSection() {
   const [modal, setModal] = useState<MediaItem | null>(null);
   const open = (item: MediaItem) => setModal(item);
@@ -45,9 +47,11 @@ export default function AboutSection() {
               <span className="text-[#7EEF08] green-glow">UN GIMNASIO</span>
             </h2>
 
-            {/* Team photo — hidden until image is ready */}
+            {/* Team photo — apagada hasta tener la foto (antes quedaba oculta con
+                `hidden` pero igual pedía /images/team.jpg → 404 en cada visita) */}
+            {SHOW_TEAM_PHOTO && (
             <ExpandableMedia
-              className="hidden mb-6 rounded-2xl overflow-hidden border border-[#1e1e1e] bg-[#0d0d0d]"
+              className="mb-6 rounded-2xl overflow-hidden border border-[#1e1e1e] bg-[#0d0d0d]"
               onOpen={() => open({ src: "/images/team.jpg", type: "image", alt: "Equipo Warriors Sport" })}
             >
               <div className="relative w-full" style={{ height: 210 }}>
@@ -63,6 +67,7 @@ export default function AboutSection() {
                 </div>
               </div>
             </ExpandableMedia>
+            )}
 
             <p className="text-white/65 text-base lg:text-lg leading-relaxed mb-4">
               Warriors Sport nació para ser <strong className="text-white">tu segunda casa</strong>. Un espacio donde cada persona, sin importar su nivel, encuentra el entorno ideal para transformarse — física y mentalmente.

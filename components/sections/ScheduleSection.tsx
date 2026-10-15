@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 /* ── Warriors Sport schedule ──────────────────────────────────────────────
    San Martín:  Lun–Vie 07–23h · Sáb 09–18h · Dom 08–12h (opt.)
@@ -116,12 +116,18 @@ const groupClasses = [
   },
 ];
 
-const jsDay    = typeof window !== "undefined" ? new Date().getDay() : -1;
-const todayIdx = jsDay === 0 ? 6 : jsDay - 1;
 
 export default function ScheduleSection() {
   const [added, setAdded] = useState<Set<GroupClass>>(new Set());
   const [sede,  setSede]  = useState<SedeId>("sm");
+  /* "Hoy" se calcula recién en el navegador: si se calculara al cargar el
+     módulo, el servidor y el cliente renderizaban distinto (error de
+     hidratación y React re-armaba toda la página). */
+  const [todayIdx, setTodayIdx] = useState(-1);
+  useEffect(() => {
+    const d = new Date().getDay();
+    setTodayIdx(d === 0 ? 6 : d - 1);
+  }, []);
 
   const toggle = (cls: GroupClass) =>
     setAdded(prev => {

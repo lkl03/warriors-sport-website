@@ -34,7 +34,9 @@ export default function Footer() {
                 { href: "/#inicio",    label: "Inicio" },
                 { href: "/#nosotros",  label: "Nosotros" },
                 { href: "/#horarios",  label: "Horarios" },
-                { href: "/#sedes",     label: "Sedes" },
+                { href: "/sedes/san-martin",       label: "Sede San Martín" },
+                { href: "/sedes/san-andres", label: "Sede San Andrés" },
+                { href: "/#preguntas",             label: "Preguntas frecuentes" },
                 { href: "/#contacto",  label: "Contacto" },
               ].map(({ href, label }) => (
                 <li key={href}>
@@ -53,16 +55,16 @@ export default function Footer() {
 
               {/* San Martín */}
               <div>
-                <p className="text-white/40 text-xs uppercase tracking-widest mb-1">San Martín</p>
+                <a href="/sedes/san-martin" className="text-white/40 hover:text-white text-xs uppercase tracking-widest mb-1 block">San Martín</a>
                 <p className="text-white/70 text-sm">Av. 25 de Mayo 1859</p>
                 <p className="text-white/70 text-sm">B1650 San Martín, Bs. As.</p>
               </div>
 
               {/* San Andrés */}
               <div>
-                <p className="text-white/40 text-xs uppercase tracking-widest mb-1">San Andrés</p>
+                <a href="/sedes/san-andres" className="text-white/40 hover:text-white text-xs uppercase tracking-widest mb-1 block">San Andrés</a>
                 <p className="text-white/70 text-sm">J. M. Campos 2571</p>
-                <p className="text-white/70 text-sm">B1651 Villa San Andrés, Bs. As.</p>
+                <p className="text-white/70 text-sm">B1651 San Andrés, Bs. As.</p>
               </div>
 
               {/* WhatsApp */}
