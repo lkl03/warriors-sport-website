@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { Maximize2 } from "lucide-react";
 import MediaModal, { type MediaItem } from "@/components/MediaModal";
+import LazyVideo from "@/components/LazyVideo";
 
 /* Clickable media wrapper — shows an expand overlay on hover */
 function ExpandableMedia({
@@ -124,14 +125,7 @@ export default function AboutSection() {
                 onOpen={() => open({ src: "/images/gym-video.mp4", type: "video", alt: "Warriors Sport video" })}
               >
                 <div style={{ aspectRatio: "16/7" }}>
-                  <video
-                    src="/images/gym-video.mp4"
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    className="w-full h-full object-cover"
-                  />
+                  <LazyVideo src="/images/gym-video.mp4" className="w-full h-full object-cover" />
                 </div>
               </ExpandableMedia>
 

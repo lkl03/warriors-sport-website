@@ -10,11 +10,14 @@ import { siteGraph, jsonLdString } from "@/lib/schema";
 
 const inter      = Inter({ variable: "--font-inter",      subsets: ["latin"] });
 const bebasNeue  = Bebas_Neue({ variable: "--font-bebas", weight: "400", subsets: ["latin"] });
-const montserrat = Montserrat({ variable: "--font-montserrat", subsets: ["latin"] });
+/* Montserrat solo se usa en el crédito del footer: sin preload, así no
+   compite con el hero en la primera carga. */
+const montserrat = Montserrat({ variable: "--font-montserrat", subsets: ["latin"], preload: false });
 
 const TITLE = "Gimnasio en San Martín y San Andrés | Warriors Sport Arg";
+/* ≤ 160 caracteres: la anterior (173) se cortaba en Google. */
 const DESCRIPTION =
-  "Warriors Sport: gimnasio con 2 sedes en San Martín y San Andrés, Buenos Aires. Musculación con máquinas nuevas, clases de funcional, yoga y jumping. Escribinos por WhatsApp.";
+  "Gimnasio en San Martín y San Andrés, Buenos Aires: musculación con instructores, funcional, yoga y jumping. Abierto los 7 días en San Martín. Escribinos.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
@@ -61,7 +64,10 @@ export const metadata: Metadata = {
   },
 
   /* Search Console se verifica con public/google25071ef012ca54af.html
-     (no borrar ese archivo). */
+     (no borrar ese archivo). Bing Webmaster Tools, con esta meta. */
+  verification: {
+    other: { "msvalidate.01": "CA775D9BF5B3992D54F4DC95A89DD303" },
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

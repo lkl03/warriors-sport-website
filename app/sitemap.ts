@@ -2,12 +2,12 @@ import { MetadataRoute } from "next";
 import { BASE_URL, sedes } from "@/lib/sedes";
 
 /* /rutinas no va: es noindex (página exclusiva del QR impreso). */
-const LAST_UPDATE = new Date("2026-10-15");
+const LAST_UPDATE = new Date("2026-11-14");
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url:             BASE_URL,
+      url:             `${BASE_URL}/`,
       lastModified:    LAST_UPDATE,
       changeFrequency: "weekly",
       priority:        1,

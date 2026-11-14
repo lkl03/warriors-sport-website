@@ -40,6 +40,8 @@ export type Sede = {
   image:        string;
   images:       { src: string; alt: string; pos?: string }[];
   intro:        string;
+  /** Meta description de /sedes/<slug> (≤ 160 caracteres, sin cortes en Google) */
+  metaDescription: string;
   highlights:   string[];
   nearby:       string[];
 };
@@ -88,6 +90,8 @@ export const sedes: Sede[] = [
     ],
     intro:
       "Warriors Sport San Martín es un gimnasio de musculación de varios pisos sobre Av. 25 de Mayo 1859, a pocas cuadras de la peatonal de San Martín. Abre de lunes a viernes de 7 a 23 h, sábados de 9 a 18 h y domingos de 8 a 12 h, con máquinas nuevas, instructores que arman tu rutina y clases grupales de funcional, yoga, jumping y árabe fitness.",
+    metaDescription:
+      "Gimnasio Warriors Sport en Av. 25 de Mayo 1859, San Martín. Abre lun a vie 7 a 23 h, sáb 9 a 18 h y dom 8 a 12 h. Musculación y clases grupales.",
     highlights: [
       "Sala de musculación libre en varios pisos, con máquinas nuevas",
       "Instructores que te arman la rutina y te corrigen la técnica",
@@ -135,6 +139,8 @@ export const sedes: Sede[] = [
     ],
     intro:
       "Warriors Sport San Andrés es la segunda sede del gimnasio, en J. M. Campos 2571. Abre de lunes a viernes de 8 a 22 h y sábados de 9 a 13 h (domingos cerrado), con sala de musculación equipada e instructores que acompañan tu entrenamiento, con la misma forma de trabajar que la sede de San Martín.",
+    metaDescription:
+      "Gimnasio Warriors Sport en J. M. Campos 2571, San Andrés. Abre lun a vie 8 a 22 h y sáb 9 a 13 h. Musculación con instructores. Consultá por WhatsApp.",
     highlights: [
       "Sala de musculación equipada",
       "Instructores que te arman la rutina según tu objetivo",

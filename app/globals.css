@@ -67,6 +67,20 @@ body {
 .animate-green-pulse   { animation: greenPulse 2.5s ease-in-out infinite; }
 .animate-number-cycle  { animation: numberColorCycle 6s ease-in-out infinite; }
 
+/* ── Entrada del hero ──
+   Mismo efecto que antes (fade + desplazamiento/escala, 0,7 s), pero en CSS:
+   arranca con el primer pintado en vez de esperar a que hidrate React. */
+@keyframes heroInScale { from { opacity: 0; transform: scale(0.9); }         to { opacity: 1; transform: none; } }
+@keyframes heroInUp    { from { opacity: 0; transform: translateY(1rem); }   to { opacity: 1; transform: none; } }
+@keyframes heroInUpLg  { from { opacity: 0; transform: translateY(1.5rem); } to { opacity: 1; transform: none; } }
+.hero-in-scale { animation: heroInScale 0.7s ease both; }
+.hero-in-up    { animation: heroInUp    0.7s ease both; }
+.hero-in-up-lg { animation: heroInUpLg  0.7s ease both; }
+.hero-in-fade  { animation: fadeIn      0.7s ease both; }
+@media (prefers-reduced-motion: reduce) {
+  .hero-in-scale, .hero-in-up, .hero-in-up-lg, .hero-in-fade { animation: none; }
+}
+
 /* ── Scroll reveal ── */
 .reveal {
   opacity: 0; transform: translateY(28px);

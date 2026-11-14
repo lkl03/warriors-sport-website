@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { MapPin, Clock, Phone, Navigation, Star } from "lucide-react";
 import { sedes, sedeBySlug, BASE_URL } from "@/lib/sedes";
 import { gymNode, jsonLdString, ORG_ID } from "@/lib/schema";
+import { sedeFaqs } from "@/lib/faq";
 
 /* ── Página propia de cada sede ────────────────────────────────────────────
    /sedes/san-martin y /sedes/san-andres. Es la URL que hay que cargar
@@ -27,9 +28,7 @@ export async function generateMetadata(
   if (!sede) return {};
 
   const title = `Gimnasio en ${sede.locality} — ${sede.street}`;
-  const description =
-    `Warriors Sport ${sede.locality}: gimnasio en ${sede.street}, ${sede.locality}, Buenos Aires. ` +
-    `${sede.hours.map(([d, h]) => `${d} ${h.replace(" hs.", " h")}`).join(" · ")}. Consultá por WhatsApp.`;
+  const description = sede.metaDescription;
 
   return {
     title,
@@ -46,6 +45,12 @@ export async function generateMetadata(
          a la imagen generada en app/opengraph-image.tsx. */
       images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Warriors Sport Arg" }],
     },
+    twitter: {
+      card:        "summary_large_image",
+      title:       `${title} | Warriors Sport Arg`,
+      description,
+      images:      ["/opengraph-image"],
+    },
   };
 }
 
@@ -57,6 +62,7 @@ export default async function SedePage(
   if (!sede) notFound();
 
   const other = sedes.find(s => s.id !== sede.id)!;
+  const faqs  = sedeFaqs(sede);
 
   const graph = {
     "@context": "https://schema.org",
@@ -79,6 +85,15 @@ export default async function SedePage(
           { "@type": "ListItem", "position": 2, "name": "Sedes", "item": `${BASE_URL}/#sedes` },
           { "@type": "ListItem", "position": 3, "name": sede.locality, "item": `${BASE_URL}/sedes/${sede.slug}` },
         ],
+      },
+      {
+        "@type": "FAQPage",
+        "@id": `${BASE_URL}/sedes/${sede.slug}#faq`,
+        "mainEntity": faqs.map(f => ({
+          "@type": "Question",
+          "name": f.q,
+          "acceptedAnswer": { "@type": "Answer", "text": f.a },
+        })),
       },
     ],
   };
@@ -232,6 +247,32 @@ export default async function SedePage(
             </a>
           </div>
         </div>
+
+        {/* Preguntas frecuentes de la sede — mismo estilo que el FAQ del home */}
+        <section className="mt-14" aria-labelledby="faq-sede">
+          <h2 id="faq-sede" className="font-display text-3xl lg:text-4xl text-white tracking-wide mb-5">
+            PREGUNTAS FRECUENTES — <span className="text-[#7EEF08]">{sede.locality.toUpperCase()}</span>
+          </h2>
+          <div className="space-y-3">
+            {faqs.map(({ q, a }) => (
+              <details
+                key={q}
+                className="group bg-[#0d0d0d] border border-[#1e1e1e] open:border-[#7EEF08]/30 rounded-xl transition-colors"
+              >
+                <summary className="cursor-pointer list-none flex items-center justify-between gap-4 px-5 py-4 [&::-webkit-details-marker]:hidden">
+                  <h3 className="text-white text-sm sm:text-base font-semibold leading-snug">{q}</h3>
+                  <span
+                    aria-hidden
+                    className="shrink-0 w-7 h-7 rounded-full border border-[#7EEF08]/40 text-[#7EEF08] flex items-center justify-center text-lg leading-none transition-transform duration-200 group-open:rotate-45"
+                  >
+                    +
+                  </span>
+                </summary>
+                <p className="px-5 pb-5 -mt-1 text-white/60 text-sm leading-relaxed">{a}</p>
+              </details>
+            ))}
+          </div>
+        </section>
 
         {/* Otra sede */}
         <div className="mt-14 border-t border-[#1a1a1a] pt-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">

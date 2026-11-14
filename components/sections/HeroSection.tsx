@@ -16,7 +16,6 @@ const slides = [
 
 export default function HeroSection() {
   const [current, setCurrent] = useState(0);
-  const [loaded,  setLoaded]  = useState(false);
   const [animKey, setAnimKey] = useState(0);
   const dragStartX = useRef<number | null>(null);
 
@@ -25,7 +24,6 @@ export default function HeroSection() {
     setAnimKey(k => k + 1);
   }, []);
 
-  useEffect(() => { setLoaded(true); }, []);
   useEffect(() => {
     const t = setInterval(() => go(current + 1), 5000);
     return () => clearInterval(t);
@@ -77,10 +75,10 @@ export default function HeroSection() {
       <div className="relative z-10 w-full max-w-2xl mx-auto px-6 py-28 flex flex-col items-center text-center">
 
         {/* Logo */}
-        <div
-          className={`mb-5 transition-all duration-700 ${loaded ? "opacity-100 scale-100" : "opacity-0 scale-90"}`}
-          style={{ transitionDelay: "0.1s" }}
-        >
+        {/* Entrada con animaciones CSS (globals.css → .hero-in-*): arrancan con
+            el primer pintado, sin esperar a que cargue el JS. Antes el logo y el
+            H1 quedaban en opacity-0 hasta hidratar y el LCP móvil llegaba a 8 s. */}
+        <div className="mb-5 hero-in-scale" style={{ animationDelay: "0.1s" }}>
           <div className="w-32 h-32 md:w-44 md:h-44 rounded-full overflow-hidden border-2 border-[#7EEF08]/55 shadow-2xl shadow-[#7EEF08]/25 mx-auto">
             <Image
               src="/images/logo.jpg"
@@ -94,12 +92,10 @@ export default function HeroSection() {
         </div>
 
         {/* Brand name */}
-        <div
-          className={`mb-5 transition-all duration-700 ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
-          style={{ transitionDelay: "0.2s" }}
-        >
+        <div className="mb-5 hero-in-up" style={{ animationDelay: "0.2s" }}>
           <h1 className="mb-1 flex flex-col items-center gap-1.5">
             <span className="text-[#7EEF08] text-xs font-bold tracking-[0.4em] uppercase">Warriors Sport Arg</span>
+            <span className="sr-only"> — </span>
             <span className="text-white/70 text-[11px] font-semibold tracking-[0.25em] uppercase">
               Gimnasio en San Martín y San Andrés
             </span>
@@ -108,11 +104,7 @@ export default function HeroSection() {
         </div>
 
         {/* Animated slide tagline */}
-        <div
-          key={animKey}
-          className={`mb-9 transition-all duration-700 ${loaded ? "opacity-100" : "opacity-0"}`}
-          style={{ transitionDelay: "0.3s" }}
-        >
+        <div key={animKey} className="mb-9 hero-in-fade" style={{ animationDelay: "0.3s" }}>
           <p className="text-white/40 text-sm lg:text-base animate-fade-in-up italic">
             {slides[current].tagline}
           </p>
@@ -120,8 +112,8 @@ export default function HeroSection() {
 
         {/* CTAs */}
         <div
-          className={`flex flex-col sm:flex-row gap-4 justify-center transition-all duration-700 ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
-          style={{ transitionDelay: "0.45s" }}
+          className="flex flex-col sm:flex-row gap-4 justify-center hero-in-up-lg"
+          style={{ animationDelay: "0.45s" }}
         >
           <a
             href={WA_LINK}
@@ -141,14 +133,18 @@ export default function HeroSection() {
       </div>
 
       {/* Slide indicators */}
-      <div className="absolute bottom-16 left-1/2 -translate-x-1/2 flex items-center gap-3 z-20">
+      {/* Cada punto tiene un área táctil de 24 px (accesibilidad móvil); el
+          punto visible sigue siendo el mismo. */}
+      <div className="absolute bottom-16 left-1/2 -translate-x-1/2 flex items-center gap-0 z-20">
         {slides.map((_, i) => (
           <button
             key={i}
             onClick={() => go(i)}
-            className={`cursor-pointer transition-all duration-300 rounded-full ${i === current ? "w-6 h-2 bg-[#7EEF08]" : "w-2 h-2 bg-white/30 hover:bg-white/60"}`}
-            aria-label={`Slide ${i + 1}`}
-          />
+            className="group cursor-pointer h-6 min-w-6 px-1.5 flex items-center justify-center"
+            aria-label={`Foto ${i + 1}`}
+          >
+            <span className={`block transition-all duration-300 rounded-full ${i === current ? "w-6 h-2 bg-[#7EEF08]" : "w-2 h-2 bg-white/30 group-hover:bg-white/60"}`} />
+          </button>
         ))}
       </div>
 

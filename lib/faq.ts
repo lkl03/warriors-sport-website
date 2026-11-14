@@ -1,4 +1,4 @@
-import { sedes } from "@/lib/sedes";
+import { sedes, type Sede } from "@/lib/sedes";
 
 /* ── Preguntas frecuentes ──────────────────────────────────────────────────
    Se muestran en el home (sección FAQ) y salen también como FAQPage en el
@@ -52,3 +52,40 @@ export const faqs: Faq[] = [
 ];
 
 export const faqById = (id: FaqId) => faqs.find(f => f.id === id)!;
+
+/* ── FAQ por sede (/sedes/<slug>) ──────────────────────────────────────────
+   Mismas reglas: respuestas cortas, autocontenidas y armadas con los datos
+   de lib/sedes.ts, para que respondan "gimnasio en <barrio>" sin repetir
+   textos a mano. */
+const listar = (xs: string[]) => xs.length > 1 ? `${xs.slice(0, -1).join(", ")} y ${xs.at(-1)}` : xs[0];
+
+export function sedeFaqs(s: Sede): { q: string; a: string }[] {
+  /* "de lunes a viernes de 8 a 22 h, sábados de 9 a 13 h y los domingos está cerrada" */
+  const hora = (t: string) => String(Number(t.split(":")[0])) + (t.endsWith(":00") ? "" : `:${t.split(":")[1]}`);
+  const dias = (d: string[]) =>
+    d.length === 5 ? "de lunes a viernes" : d[0] === "Saturday" ? "sábados" : d[0] === "Sunday" ? "domingos" : d.join(", ");
+  const tramos = s.opening.map(o => `${dias(o.days)} de ${hora(o.opens)} a ${hora(o.closes)} h`);
+  const abreDomingo = s.opening.some(o => o.days.includes("Sunday"));
+  const horario = abreDomingo ? listar(tramos) : `${tramos.join(", ")} (los domingos está cerrada)`;
+  const actividades = s.id === "sm"
+    ? faqById("actividades").a.replace("En las dos sedes hay musculación libre con instructores. En San Martín además hay", "En la sede San Martín hay musculación libre con instructores y")
+    : `En la sede ${s.locality} hay sala de musculación con instructores que te arman la rutina según tu objetivo. Las clases grupales (Funcional, Yoga, Jumping y Árabe Fitness) se dictan en la sede San Martín.`;
+  return [
+    {
+      q: `¿Dónde queda Warriors Sport ${s.locality}?`,
+      a: `En ${s.street}, ${s.postalCode} ${s.locality}, provincia de Buenos Aires. Queda cerca de ${listar(s.nearby)}.`,
+    },
+    {
+      q: `¿Qué horario tiene el gimnasio de ${s.locality}?`,
+      a: `Warriors Sport ${s.locality} abre ${horario}.`,
+    },
+    {
+      q: `¿Qué actividades hay en Warriors Sport ${s.locality}?`,
+      a: actividades,
+    },
+    {
+      q: `¿Cómo me inscribo en la sede ${s.locality}?`,
+      a: `Escribí por WhatsApp al ${s.waDisplay} o acercate a la recepción de ${s.street} en el horario de atención.`,
+    },
+  ];
+}

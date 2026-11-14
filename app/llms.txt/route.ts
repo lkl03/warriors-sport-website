@@ -7,11 +7,20 @@ import { faqs } from "@/lib/faq";
 
 export const dynamic = "force-static";
 
+const LAST_UPDATE = "2026-11-14";
+
 export function GET() {
   const body = [
     "# Warriors Sport Arg",
     "",
     "> Gimnasio con dos sedes en el partido de General San Martín, Buenos Aires, Argentina: San Martín (Av. 25 de Mayo 1859) y San Andrés (J. M. Campos 2571). Musculación con instructores, clases grupales y el Curso de Entrenador en Musculación y Alto Rendimiento.",
+    "",
+    "## Qué ofrece",
+    "",
+    "- Musculación libre con instructores en las dos sedes (te arman la rutina según tu objetivo).",
+    "- Clases grupales en la sede San Martín: Funcional, Yoga, Jumping Rebote y Árabe Fitness.",
+    "- Curso de Entrenador en Musculación y Alto Rendimiento (Instituto Warriors Sport): 10 meses, sábados de 9 a 11 h, con pasantías.",
+    "- Más de 7 años en San Martín.",
     "",
     "## Sedes",
     "",
@@ -31,6 +40,8 @@ export function GET() {
     "",
     `- Sitio: ${BASE_URL}`,
     `- Instagram: ${INSTAGRAM_URL}`,
+    "",
+    `Última actualización: ${LAST_UPDATE}`,
     "",
   ].join("\n");
 
